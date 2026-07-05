@@ -91,6 +91,7 @@ App.Editor = {
     this._fillForm();
     this._renderPreview();
     this._renderPricingAssistant();
+    this._renderPushChannels();
     this._wireForm();
   },
 
@@ -214,8 +215,9 @@ App.Editor = {
   _renderPricingAssistant() {
     const weather = App.Dashboard.currentWeather;
     const events = App.Dashboard.currentEvents;
+    const match = App.Dashboard.currentMatch;
     const bookingWindow = App.Dashboard.getBookingWindow();
-    const suggestion = App.Pricing.computeSuggestion(this.draft, weather, events, bookingWindow);
+    const suggestion = App.Pricing.computeSuggestion(this.draft, weather, events, bookingWindow, match);
     document.getElementById('suggestion-text').textContent = suggestion.headline;
     document.getElementById('suggestion-price').textContent = `${this.draft.currency}${suggestion.newPrice}`;
     this._pendingSuggestion = suggestion;
@@ -227,6 +229,26 @@ App.Editor = {
     document.getElementById('f-price').value = this.draft.price;
     this._renderPreview();
     App.UI.toast('Suggested price applied — remember to save.', 'info');
+  },
+
+  // ---------- Push channel picker ----------
+  _renderPushChannels() {
+    const host = document.getElementById('push-channel-list');
+    if (!host) return;
+    const channels = App.DB.load().otaChannels;
+    host.innerHTML = channels.map(ch => `
+      <label class="push-channel-row ${ch.connected ? '' : 'disabled'}">
+        <input type="checkbox" data-channel-id="${ch.id}" ${ch.connected ? 'checked' : 'disabled'}>
+        <span>${ch.name}</span>
+        ${ch.connected ? '' : '<span class="connect-hint">Connect in Channel Sync</span>'}
+      </label>
+    `).join('');
+  },
+
+  _selectedChannels() {
+    const checked = Array.from(document.querySelectorAll('#push-channel-list input[type="checkbox"]:checked'));
+    const ids = checked.map(c => c.dataset.channelId);
+    return App.DB.load().otaChannels.filter(ch => ids.includes(ch.id));
   },
 
   // ---------- Save / push ----------
@@ -267,15 +289,16 @@ App.Editor = {
   async pushCurrent() {
     const log = document.getElementById('push-log');
     const btn = document.getElementById('push-btn');
+    const channels = this._selectedChannels();
     log.innerHTML = '';
     btn.disabled = true; btn.textContent = 'Pushing…';
 
-    const ok = await App.OTA.pushProduct(this.destKey, this.draft, (ch) => {
+    const ok = await App.OTA.pushProduct(this.destKey, this.draft, channels, (ch) => {
       const time = App.UI.timeNow();
       log.insertAdjacentHTML('beforeend', `<div class="log-line"><span class="log-time">${time}</span><span>→ ${ch.name}: updated.</span></div>`);
     });
 
-    btn.disabled = false; btn.textContent = 'Push this product';
-    if (ok) App.UI.toast('Pushed to all connected channels.', 'success');
+    btn.disabled = false; btn.textContent = 'Push selected channels';
+    if (ok) App.UI.toast('Pushed to selected channels.', 'success');
   },
 };

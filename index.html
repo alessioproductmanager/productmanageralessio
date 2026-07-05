@@ -63,7 +63,8 @@
         <button class="tab-btn active" onclick="App.UI.switchTab('view-hub', this)">Product Hub</button>
         <button class="tab-btn" onclick="App.UI.switchTab('view-sync', this)">Channel Sync</button>
         <button class="tab-btn" onclick="App.UI.switchTab('view-health', this)">API Monitoring</button>
-        <button class="tab-btn" onclick="App.UI.switchTab('view-cv', this)">Alessio CV</button>
+        <button class="tab-btn" onclick="App.UI.switchTab('view-readme', this)">Read Me</button>
+        <button class="tab-btn" onclick="App.UI.switchTab('view-cv', this)">PM Profile</button>
       </div>
     </div>
   </nav>
@@ -131,17 +132,17 @@
       <header class="header">
         <div>
           <h1>API Monitoring</h1>
-          <p>Connection health to the Disney ticketing core.</p>
+          <p>Per product, split by call type. Simulated telemetry — no real Disney backend exists.</p>
         </div>
       </header>
 
       <div class="grid-3" style="margin-bottom:20px;">
         <div class="card" style="margin-bottom:0;">
-          <span class="metric-label">Latency</span>
+          <span class="metric-label">Avg latency (all calls)</span>
           <span class="metric" id="health-latency">--</span>
         </div>
         <div class="card" style="margin-bottom:0;">
-          <span class="metric-label">Webhook success rate</span>
+          <span class="metric-label">Success rate</span>
           <span class="metric" id="health-success-rate">--</span>
         </div>
         <div class="card" style="margin-bottom:0;">
@@ -151,8 +152,69 @@
       </div>
 
       <div class="card">
+        <h3>Per-product breakdown <span class="demo-note">Availability · Reservation · Booking · Cancellation</span></h3>
+        <div id="health-grid"></div>
+      </div>
+
+      <div class="card">
         <h3>Event log <span class="demo-note">Simulated telemetry — demo only</span></h3>
         <div class="health-log" id="health-log"></div>
+      </div>
+    </div>
+
+    <!-- ===== TAB: READ ME ===== -->
+    <div id="view-readme" class="page-view">
+      <header class="header">
+        <div>
+          <h1>Read Me</h1>
+          <p>What this is, what's real, what's mocked — and why it's built this way.</p>
+        </div>
+      </header>
+
+      <div class="card">
+        <h3>🎯 Goal</h3>
+        <p class="text-sm" style="line-height:1.65;">
+          1. Manage products quickly and effectively, kept in sync across different distribution platforms instead of manual copy-paste per OTA.<br><br>
+          2. Price them using live context — weather, nearby events, and now live sports fixtures — instead of a single static seasonal price.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>🔌 Connected services</h3>
+        <div id="readme-services"></div>
+      </div>
+
+      <div class="card">
+        <h3>🗂️ Architecture</h3>
+        <p class="text-sm" style="line-height:1.65;">
+          Single-page app, no build step. <span class="mono">js/db.js</span> is the only source of
+          truth (persisted to <span class="mono">localStorage</span>) — every other module reads and
+          writes through it. <span class="mono">js/editor.js</span> is the core: product cards, the
+          create/edit modal, the live Tiqets-style preview, and the push panel all live there.
+          <span class="mono">js/pricing.js</span> is pure functions — given weather, events, a match
+          and a booking window, it returns a suggestion. No module reaches into another's DOM directly.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3>📄 Notes for whoever's reviewing this</h3>
+        <pre id="readme-raw" class="health-log" style="max-height:420px; white-space:pre-wrap;">This is a portfolio prototype for a Junior PM (B2B Supplier Tooling) role at
+Tiqets — a channel-manager for cultural venues. It's built to demo two
+things a real supplier tool needs: fast product creation/editing with a
+live preview, and pricing decisions backed by live context.
+
+Every mocked piece is labeled in the UI itself, not just in this doc —
+"demo note", "mock OAuth", "simulated telemetry" tags appear right where
+that data shows up, so nothing here overstates what's actually wired to a
+real service.
+
+The "database" is localStorage, wrapped in js/db.js. There is no server;
+a real version of this tool would swap that one file for API calls and
+leave every other module untouched, since they all read/write through it.
+
+See the full README.md in the project files for the complete breakdown,
+including how to reset demo state and how to safely wire a real API key
+back in without hardcoding secrets client-side.</pre>
       </div>
     </div>
 
@@ -315,7 +377,8 @@
 
     <div id="push-panel" class="editor-section hidden">
       <h3>🔄 Push to channels</h3>
-      <button id="push-btn" class="btn btn-primary btn-sm" type="button" style="margin-bottom:12px;">Push this product</button>
+      <div id="push-channel-list" class="push-channel-list"></div>
+      <button id="push-btn" class="btn btn-primary btn-sm" type="button" style="margin:12px 0;">Push selected channels</button>
       <div class="sync-log" id="push-log">Save first, then push.</div>
     </div>
   </div>
@@ -326,11 +389,13 @@
 <script src="js/login.js"></script>
 <script src="js/weather.js"></script>
 <script src="js/events.js"></script>
+<script src="js/worldcup.js"></script>
 <script src="js/pricing.js"></script>
 <script src="js/ota.js"></script>
 <script src="js/apihealth.js"></script>
 <script src="js/quiz.js"></script>
 <script src="js/editor.js"></script>
+<script src="js/readme.js"></script>
 <script src="js/dashboard.js"></script>
 <script src="js/app.js"></script>
 </body>

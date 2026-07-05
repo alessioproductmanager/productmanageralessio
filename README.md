@@ -1,4 +1,4 @@
-# Tiqets Supplier Tooling Hub — interview prototype (v2)
+# Tiqets Supplier Tooling Hub — interview prototype (v3)
 
 A working prototype built for a Junior Product Manager (B2B Supplier Tooling)
 application at Tiqets. It simulates a channel-manager for cultural venues,
@@ -31,8 +31,44 @@ creation/editing with a live preview**, and **live context for pricing**.
      edit and push is logged with who did it and when.
 4. **Channel Sync** — connection toggles (mock OAuth) + the shared
    activity feed.
-5. **API Monitoring** — simulated telemetry, labeled as such.
-6. **PM Profile** — the CV / case-for-hire tab.
+5. **API Monitoring** — per **product**, split into the four call types a
+   real integration actually makes: Availability, Reservation, Booking,
+   Cancellation. All simulated, labeled as such.
+6. **Read Me** (in-app tab) — the goal, a live-updating list of which
+   services are actually connected vs. mocked (reads `App.CONFIG`
+   directly, so it flips to "LIVE" the moment a real key is added), and
+   the architecture notes — so a reviewer doesn't have to leave the tool
+   to see this.
+7. **PM Profile** — the CV / case-for-hire tab.
+
+## World Cup fixtures as a pricing signal
+
+`js/worldcup.js` adds a second, opposite-direction signal next to nearby
+events: a big match kicked off during typical visiting hours tends to
+*reduce* attraction visits (people stay in to watch), unlike a concert or
+expo nearby which tends to *increase* them. It also weights matches
+involving the destination's own country higher (`countryTeam` in
+`js/db.js`), since that's when the effect is strongest.
+
+- **Live**: calls `football-data.org` v4, competition code `WC` (FIFA
+  World Cup — free tier, forever, per their published policy), if
+  `App.CONFIG.FOOTBALL_DATA_TOKEN` is set in `js/db.js`.
+- **Mock fallback**: a small fixed fixture list, used automatically if no
+  token is set or the request fails.
+- **Getting a token**: register free at
+  `https://www.football-data.org/client/register`, the token appears in
+  your account area, send it as the `X-Auth-Token` header. Free tier: 10
+  requests/minute, 12 competitions including the World Cup. This key only
+  reads public fixtures — no billing or destructive risk — so embedding
+  it client-side for this demo is a reasonable, low-stakes call, unlike
+  the Hugging Face key mentioned below. Don't reuse it elsewhere.
+
+## Push now lets you pick channels
+
+The push panel in the product editor shows a checkbox per OTA channel —
+connected channels are checked by default and editable, disconnected ones
+are shown disabled with a "Connect in Channel Sync" hint, so you push to
+exactly the channels you mean to, not a blind "everything".
 
 ## The pricing logic is grounded in real practice
 
@@ -56,9 +92,10 @@ signals"). Three real, checkable facts shaped the rules:
 |---|---|
 | Weather (Open-Meteo) | **Real, live**, no API key needed |
 | Nearby events | Mocked — small fixed dataset (`js/events.js`) |
+| World Cup fixtures | **Real, live** if `App.CONFIG.FOOTBALL_DATA_TOKEN` is set (`js/worldcup.js`) — mocked otherwise |
 | Smart Ingestion | Mocked — detects a destination name in the pasted URL text, doesn't scrape cross-origin |
 | OTA OAuth connect / push | Mocked — no real GetYourGuide/Viator/Klook/Expedia credentials |
-| API health telemetry | Simulated — labeled "demo only" in the UI |
+| API Monitoring (per product) | Simulated — labeled "demo only" in the UI |
 | Login | Name + icon only, no password, no server — a label for the activity feed, not real auth |
 | "Database" | `localStorage`, wrapped in `js/db.js` — persists in the browser only |
 
@@ -75,7 +112,12 @@ browser console: `App.DB.reset()` — or clear site data for the page.
 
 ## About the Hugging Face key
 
-`App.CONFIG.HUGGINGFACE_TOKEN` in `js/db.js` is an a real token.
+`App.CONFIG.HUGGINGFACE_TOKEN` in `js/db.js` is an intentionally empty
+placeholder. An earlier draft had a real token hardcoded client-side — if
+you're reusing anything from that draft, rotate/revoke that token in your
+Hugging Face account first. Any secret written into a file the browser
+downloads is visible to anyone who views source; the safe way to add a real
+AI call back in is a small serverless proxy that holds the key server-side.
 
 ## Structure
 
@@ -83,7 +125,8 @@ browser console: `App.DB.reset()` — or clear site data for the page.
 index.html
 css/  variables · base · layout · components · quiz · login · editor · animations
 js/   db (config + mock persistence + activity log) · ui · login
-      weather (real) · events (mock) · pricing (booking-window aware)
-      ota (connections + push + activity feed) · apihealth (simulated)
-      quiz · editor (cards + create/edit modal + live preview) · dashboard · app (bootstrap)
+      weather (real) · events (mock) · worldcup (real if keyed, else mock)
+      pricing (booking-window + match aware) · ota (connections + selective push + activity feed)
+      apihealth (per product × 4 call types, simulated) · readme (live connected-services list)
+      quiz · editor (cards + create/edit modal + live preview + channel picker) · dashboard · app (bootstrap)
 ```

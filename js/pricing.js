@@ -15,7 +15,7 @@ App.Pricing = {
     return /dining|cirque|show|theatre|theater/i.test(`${product.name} ${product.tagline || ''}`);
   },
 
-  explainSignals(weather, events, bookingWindow) {
+  explainSignals(weather, events, bookingWindow, match) {
     const lines = [];
 
     if (weather.isWet) {
@@ -31,6 +31,16 @@ App.Pricing = {
       lines.push({ icon: '📍', text: `${events[0].name} nearby (${events[0].distanceKm} km) — a moderate uplift is plausible, worth monitoring rather than acting on yet.` });
     }
 
+    if (match) {
+      const time = match.kickoff.toLocaleString('en-GB', { weekday: 'short', hour: '2-digit', minute: '2-digit' });
+      const tag = match.live ? '' : ' (demo fixture)';
+      if (match.relevant) {
+        lines.push({ icon: '⚽', text: `${match.home} vs ${match.away} kicks off ${time}${tag} — the local team is playing. Expect a dip around kickoff as visitors stay in to watch rather than come to the park.` });
+      } else {
+        lines.push({ icon: '⚽', text: `${match.home} vs ${match.away} kicks off ${time}${tag} — a smaller, broader dip is plausible during the match itself.` });
+      }
+    }
+
     if (bookingWindow === 'far') {
       lines.push({ icon: '🗓️', text: 'Booked a month or more out — this is where a modest early-bird saving locks in demand without giving up much margin.' });
     } else if (bookingWindow === 'soon') {
@@ -41,7 +51,7 @@ App.Pricing = {
   },
 
   /** Computes one concrete suggested price for the product currently open in the editor. */
-  computeSuggestion(product, weather, events, bookingWindow) {
+  computeSuggestion(product, weather, events, bookingWindow, match) {
     let deltaPct = 0;
     const reasons = [];
     const indoor = this.isIndoorLike(product);
@@ -53,6 +63,8 @@ App.Pricing = {
 
     const highImpact = events.find(e => e.impact === 'high');
     if (highImpact) { deltaPct += 15; reasons.push(`${highImpact.name} nearby`); }
+
+    if (match && match.relevant) { deltaPct -= 6; reasons.push(`${match.home} vs ${match.away} kickoff pulling local demand away`); }
 
     if (bookingWindow === 'far') { deltaPct -= 5; reasons.push('early-bird window'); }
     if (bookingWindow === 'soon' && !highImpact) { deltaPct += 0; } // hold steady, no reason needed

@@ -4,18 +4,19 @@ App.Dashboard = {
   currentKey: 'paris',
   currentWeather: { tempC: 20, condition: 'Clear', isWet: false, live: false },
   currentEvents: [],
+  currentMatch: null,
 
   init() {
     const db = App.DB.load();
     this._populateDestinationSelector(db);
     document.getElementById('pricing-citation').textContent = App.Pricing.citation;
+    App.Docs.render();
     document.getElementById('destination-selector')
       .addEventListener('change', (e) => this.loadDestination(e.target.value));
     document.getElementById('booking-window')
       .addEventListener('change', () => this._refreshPricingCard());
 
     App.OTA.render();
-    App.ApiHealth.start();
 
     const startKey = db.quiz.visitedVenueIds[0] || 'paris';
     document.getElementById('destination-selector').value = startKey;
@@ -44,20 +45,23 @@ App.Dashboard = {
     document.getElementById('ctx-city-name').textContent = dest.cityName;
     document.getElementById('pricing-signals').innerHTML = '<p class="text-muted text-sm">Reading live weather and nearby events…</p>';
 
-    const [weather, events] = await Promise.all([
+    const [weather, events, match] = await Promise.all([
       App.Weather.fetch(dest.lat, dest.lon),
       App.Events.fetchNearby(key),
+      App.WorldCup.fetchUpcoming(dest),
     ]);
     this.currentWeather = weather;
     this.currentEvents = events;
+    this.currentMatch = match;
 
     this._refreshPricingCard();
     App.Editor.renderGrid(key);
+    App.ApiHealth.renderForDestination(key);
   },
 
   _refreshPricingCard() {
     const weather = this.currentWeather;
-    const lines = App.Pricing.explainSignals(weather, this.currentEvents, this.getBookingWindow());
+    const lines = App.Pricing.explainSignals(weather, this.currentEvents, this.getBookingWindow(), this.currentMatch);
 
     document.getElementById('live-temp').textContent = `${weather.tempC}°C`;
     document.getElementById('weather-source').textContent = weather.live ? 'Live · Open-Meteo' : 'Fallback · live fetch failed';

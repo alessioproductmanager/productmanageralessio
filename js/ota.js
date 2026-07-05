@@ -55,11 +55,10 @@ App.OTA = {
     return App.DB.load().otaChannels.filter(c => c.connected);
   },
 
-  /** Pushes a single product's current state to every connected channel. */
-  async pushProduct(destKey, product, onStep) {
-    const channels = this.connectedChannels();
-    if (!channels.length) {
-      App.UI.toast('Connect at least one channel first.', 'error');
+  /** Pushes a single product's current state to the given list of channels (must already be connected). */
+  async pushProduct(destKey, product, channels, onStep) {
+    if (!channels || !channels.length) {
+      App.UI.toast('Select at least one connected channel first.', 'error');
       return false;
     }
     for (const ch of channels) {

@@ -8,7 +8,9 @@ window.App = window.App || {};
  * run and read/written from every module through App.DB.get()/save().
  */
 App.CONFIG = {
-  HUGGINGFACE_TOKEN: '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',
+  HUGGINGFACE_TOKEN: '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', // intentionally empty — see README before adding a real one
+  FOOTBALL_DATA_TOKEN: 'bd998d84328c46f1a6981faf35530b6b', // paste your football-data.org token here — see README
+  TOURNAMENT_CODE: 'WC',
   STORAGE_KEY: 'tiqets_hub_db_v2',
 };
 
@@ -29,7 +31,7 @@ App.SEED_DB = {
 
   destinations: {
     paris: {
-      cityName: 'Paris, France', lat: 48.8566, lon: 2.3522,
+      cityName: 'Paris, France', lat: 48.8566, lon: 2.3522, countryTeam: 'France',
       products: [
         {
           id: 'DIS-PAR-01', name: 'Disneyland Park Paris — 1-Day Ticket',
@@ -60,7 +62,7 @@ App.SEED_DB = {
       ],
     },
     orlando: {
-      cityName: 'Orlando, USA', lat: 28.3852, lon: -81.5639,
+      cityName: 'Orlando, USA', lat: 28.3852, lon: -81.5639, countryTeam: 'United States',
       products: [
         {
           id: 'DIS-ORL-01', name: 'Magic Kingdom — General Admission',
@@ -91,7 +93,7 @@ App.SEED_DB = {
       ],
     },
     tokyo: {
-      cityName: 'Tokyo, Japan', lat: 35.6329, lon: 139.8804,
+      cityName: 'Tokyo, Japan', lat: 35.6329, lon: 139.8804, countryTeam: 'Japan',
       products: [
         {
           id: 'DIS-TYO-01', name: 'Tokyo Disneyland — Passport Ticket',
@@ -122,7 +124,7 @@ App.SEED_DB = {
       ],
     },
     anaheim: {
-      cityName: 'Anaheim, USA', lat: 33.8121, lon: -117.9190,
+      cityName: 'Anaheim, USA', lat: 33.8121, lon: -117.9190, countryTeam: 'United States',
       products: [
         {
           id: 'DIS-ANH-01', name: 'Disneyland Park — 1-Day Ticket',
@@ -153,7 +155,7 @@ App.SEED_DB = {
       ],
     },
     hongkong: {
-      cityName: 'Hong Kong', lat: 22.3130, lon: 114.0417,
+      cityName: 'Hong Kong', lat: 22.3130, lon: 114.0417, countryTeam: 'China',
       products: [
         {
           id: 'DIS-HKG-01', name: 'Hong Kong Disneyland — 1-Day Ticket',
@@ -184,7 +186,7 @@ App.SEED_DB = {
       ],
     },
     shanghai: {
-      cityName: 'Shanghai, China', lat: 31.1443, lon: 121.6577,
+      cityName: 'Shanghai, China', lat: 31.1443, lon: 121.6577, countryTeam: 'China',
       products: [
         {
           id: 'DIS-SHA-01', name: 'Shanghai Disney Resort — 1-Day Ticket',
