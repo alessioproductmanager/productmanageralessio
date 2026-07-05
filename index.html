@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tiqets Supplier Tooling Hub — Alessio Are</title>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/quiz.css">
+<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="css/editor.css">
+<link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+<!-- ============ LOGIN (name + avatar) ============ -->
+<div id="login-screen">
+  <div class="badge-wrap">
+    <div class="badge-brand">
+      <div style="font-weight:700; font-size:15px; letter-spacing:0.02em;">TIQETS <span class="dot-mark">·</span> SUPPLIER TOOLING HUB</div>
+      <p>Sign in with a name so your edits carry your name.</p>
+    </div>
+    <div class="staff-badge">
+      <div class="badge-eyebrow">Staff badge</div>
+      <div class="avatar-preview" id="avatar-preview">🙂</div>
+      <form id="login-form">
+        <input id="login-name" placeholder="Your name" autocomplete="off">
+        <div class="avatar-grid" id="avatar-grid"></div>
+        <button type="submit" class="btn btn-primary btn-block">Start</button>
+      </form>
+      <div class="badge-id-line">NO PASSWORD · LOCAL DEMO ONLY</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ONBOARDING QUIZ ============ -->
+<div id="onboarding-screen" class="hidden">
+  <div class="onboard-wrap">
+    <div class="onboard-brand">
+      <div style="font-weight:700; font-size:15px; letter-spacing:0.02em;">
+        TIQETS <span class="dot-mark">·</span> SUPPLIER TOOLING HUB
+      </div>
+      <p>Three quick stops before your dashboard boards.</p>
+    </div>
+    <div class="stub-progress">
+      <div class="stub"></div>
+      <div class="stub"></div>
+      <div class="stub"></div>
+    </div>
+    <div id="boarding-pass-host"></div>
+    <button class="onboard-skip" onclick="App.Quiz.skip()">Skip intro — take me to the dashboard</button>
+  </div>
+</div>
+
+<!-- ============ MAIN APP ============ -->
+<div id="main-app" class="hidden">
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">Tiqets <span class="dot-mark">·</span> Supplier Tooling Hub</div>
+      <div class="nav-tabs">
+        <button class="tab-btn active" onclick="App.UI.switchTab('view-hub', this)">Product Hub</button>
+        <button class="tab-btn" onclick="App.UI.switchTab('view-sync', this)">Channel Sync</button>
+        <button class="tab-btn" onclick="App.UI.switchTab('view-health', this)">API Monitoring</button>
+        <button class="tab-btn" onclick="App.UI.switchTab('view-cv', this)">Alessio CV</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- ===== TAB: PRODUCT HUB ===== -->
+    <div id="view-hub" class="page-view active">
+      <header class="header">
+        <div>
+          <h1>Product Hub</h1>
+          <p>Add or edit a product, see live context, push it everywhere.</p>
+        </div>
+        <select id="destination-selector"></select>
+      </header>
+
+      <div class="card">
+        <h3>
+          <span class="title-group">📍 Live pricing signals — <span id="ctx-city-name" style="text-transform:none; letter-spacing:0;">—</span></span>
+        </h3>
+        <div class="grid-small" style="margin-bottom:14px;">
+          <div>
+            <span class="metric-label">Live temperature</span>
+            <span class="metric" id="live-temp" style="font-size:24px;">--</span>
+            <div class="demo-note" style="margin-top:4px;"><span class="dot dot-live"></span><span id="weather-source">Live · Open-Meteo</span></div>
+          </div>
+          <div>
+            <span class="metric-label">Booking window</span>
+            <select id="booking-window">
+              <option value="soon">This week</option>
+              <option value="medium" selected>Next few weeks</option>
+              <option value="far">1+ month away</option>
+            </select>
+          </div>
+        </div>
+        <div id="pricing-signals"><p class="text-muted text-sm">Loading…</p></div>
+        <p class="citation-note" id="pricing-citation"></p>
+      </div>
+
+      <div id="product-grid" class="product-grid"></div>
+    </div>
+
+    <!-- ===== TAB: CHANNEL SYNC ===== -->
+    <div id="view-sync" class="page-view">
+      <header class="header">
+        <div>
+          <h1>Channel Sync</h1>
+          <p>Connect OTA partners once. Pushes happen from each product's edit screen.</p>
+        </div>
+      </header>
+
+      <div class="card">
+        <h3><span class="title-group">🔌 Connected channels</span> <span class="demo-note">Mock OAuth</span></h3>
+        <div class="ota-grid" id="ota-grid"></div>
+      </div>
+
+      <div class="card">
+        <h3>🕘 Recent activity</h3>
+        <div id="activity-feed"></div>
+      </div>
+    </div>
+
+    <!-- ===== TAB: API MONITORING ===== -->
+    <div id="view-health" class="page-view">
+      <header class="header">
+        <div>
+          <h1>API Monitoring</h1>
+          <p>Connection health to the Disney ticketing core.</p>
+        </div>
+      </header>
+
+      <div class="grid-3" style="margin-bottom:20px;">
+        <div class="card" style="margin-bottom:0;">
+          <span class="metric-label">Latency</span>
+          <span class="metric" id="health-latency">--</span>
+        </div>
+        <div class="card" style="margin-bottom:0;">
+          <span class="metric-label">Webhook success rate</span>
+          <span class="metric" id="health-success-rate">--</span>
+        </div>
+        <div class="card" style="margin-bottom:0;">
+          <span class="metric-label">Status</span>
+          <span class="badge badge-success"><span class="dot dot-live"></span> Operational</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Event log <span class="demo-note">Simulated telemetry — demo only</span></h3>
+        <div class="health-log" id="health-log"></div>
+      </div>
+    </div>
+
+    <!-- ===== TAB: CV / PM PROFILE ===== -->
+    <div id="view-cv" class="page-view">
+      <div class="card">
+        <div class="cv-header">
+          <h1 class="cv-title">Alessio Are</h1>
+          <div class="cv-subtitle">Pursuing CPSM® | PRINCE2®, CAPM®, SSYB, ISO 56002 Certified Product &amp; Project Expert</div>
+          <div class="cv-meta">📍 The Randstad, Netherlands · Cross-functional API technical delivery</div>
+          <div class="tag-container">
+            <span class="tag">Product Operations</span>
+            <span class="tag">API Strategy &amp; Integrations</span>
+            <span class="tag">B2B Supplier Tooling</span>
+            <span class="tag">Agile Frameworks</span>
+            <span class="tag">Cross-functional Leadership</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom:32px;">
+          <span class="section-headline">Professional focus</span>
+          <p class="text-sm" style="line-height:1.65; margin-top:4px;">
+            Connecting complex external supplier systems with internal, scalable product features. Over six years at Tiqets managing technical onboarding pipelines, building Jira delivery frameworks, and aligning technical roadmaps across Product, Sales, and Global Operations.
+          </p>
+        </div>
+
+        <span class="section-headline">Track record</span>
+        <div class="timeline-container">
+          <div class="timeline-item highlight">
+            <div class="role-title">Project Manager</div>
+            <div class="role-company">Tiqets · <span class="role-current">Current</span></div>
+            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">June 2025 – Present</div>
+            <ul class="role-desc">
+              <li>Leading end-to-end integration workflows connecting enterprise venues to Tiqets' core infrastructure.</li>
+              <li>Driving platform initiatives to improve connectivity metrics, API stability, and real-time validation speed.</li>
+            </ul>
+          </div>
+          <div class="timeline-item highlight">
+            <div class="role-title">Senior API Implementation Manager</div>
+            <div class="role-company">Tiqets</div>
+            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">January 2025 – May 2025</div>
+            <ul class="role-desc">
+              <li>Architected technical connections for premium worldwide suppliers, matching client requirements to API specifications.</li>
+              <li>Coordinated cross-functional alignment between Product, Engineering, Sales, and local operations teams.</li>
+              <li>Authored a company-wide technical documentation framework mapping existing API architectures.</li>
+              <li>Designed standard Jira workspace configurations — custom ticket types, automation rules, scoping checklists — letting junior execution run autonomously.</li>
+            </ul>
+          </div>
+          <div class="timeline-item highlight">
+            <div class="role-title">API Implementation Manager</div>
+            <div class="role-company">Tiqets</div>
+            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">August 2023 – December 2024</div>
+            <ul class="role-desc">
+              <li>Managed continuous endpoint integrations for key distribution software including Bókun, ExperienceBank, and TourCMS.</li>
+              <li>Built validation routines checking response accuracy for real-time inventory, dynamic pricing updates, and secure barcode token issuance.</li>
+              <li>Championed initiatives to smooth the partner onboarding lifecycle, scaling cross-departmental success metrics.</li>
+            </ul>
+          </div>
+          <div class="timeline-item highlight">
+            <div class="role-title">Configuration Specialist</div>
+            <div class="role-company">Tiqets</div>
+            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">February 2020 – July 2023</div>
+            <ul class="role-desc">
+              <li>Owned and audited marketplace lifecycle metrics for strategic venue profiles across Central &amp; Southern Europe, the Nordics, and Benelux.</li>
+              <li>Directed a global optimization squad tasked with boosting product up-time, hitting core KPIs for 20+ consecutive months.</li>
+              <li>Led a business-process change program to counter COVID-19 product gaps, protecting active metrics for over a year.</li>
+            </ul>
+          </div>
+          <div class="timeline-item">
+            <div class="role-title">Commercial Manager &amp; API Project Manager</div>
+            <div class="role-company">Globalinternet (now part of Expereo)</div>
+            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">September 2018 – February 2020</div>
+            <ul class="role-desc">
+              <li>Procured and deployed high-capacity B2B internet access infrastructure across Western Europe for Fortune 500 accounts (Nestlé, Adidas, Unilever, AT&amp;T).</li>
+              <li>Coordinated a developer squad executing 20+ live API carrier integrations across 19 countries, reducing overhead and optimizing real-time pricing queries.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top:30px;">
+          <span class="section-headline">Education &amp; credentials</span>
+          <div class="text-sm" style="line-height:1.65; font-weight:500;">
+            • Double Master's Degree in Project Management — Rome Business School &amp; VIU<br>
+            • Postgraduate Degree, Languages for International Communication — Università Mercatorum<br>
+            • Double Bachelor's Degree, Applied Foreign Languages to Business &amp; Tourism — Università della Valle d'Aosta &amp; Université Savoie Mont Blanc
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============ PRODUCT EDITOR MODAL ============ -->
+<div id="editor-modal" class="hidden">
+  <div class="editor-panel">
+    <div class="editor-header">
+      <h2 id="editor-modal-title">Edit product</h2>
+      <button class="editor-close" onclick="App.Editor.close()">✕</button>
+    </div>
+
+    <div id="editor-ingestion-block" class="editor-section hidden" style="border-top:none;">
+      <h3>🔗 Smart ingestion (optional)</h3>
+      <div style="display:flex; gap:8px;">
+        <input id="ingestion-url" placeholder="Paste a venue URL to auto-fill the fields below…" style="flex:1;">
+        <button id="run-ingestion-btn" class="btn btn-secondary" type="button">Generate draft</button>
+      </div>
+      <p id="ingestion-note" class="field-hint"></p>
+    </div>
+
+    <div class="editor-body">
+      <div class="editor-form-col">
+        <div class="field-group">
+          <label class="field-label">Product title</label>
+          <input id="f-name">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Tagline</label>
+          <input id="f-tagline">
+        </div>
+        <div class="field-group field-row-2">
+          <div>
+            <label class="field-label">Price</label>
+            <input id="f-price" type="number" min="0">
+          </div>
+          <div>
+            <label class="field-label">Currency</label>
+            <input id="f-currency" maxlength="1">
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">What's included (one per line)</label>
+          <textarea id="f-included" rows="3"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Description</label>
+          <textarea id="f-description" rows="3"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Cancellation policy</label>
+          <textarea id="f-cancellation" rows="2"></textarea>
+        </div>
+        <button id="save-btn" class="btn btn-primary btn-block" type="button">Save product</button>
+      </div>
+      <div class="editor-preview-col">
+        <div id="editor-preview"></div>
+      </div>
+    </div>
+
+    <div class="editor-section">
+      <h3>💡 Pricing assistant</h3>
+      <div class="suggestion-box">
+        <span id="suggestion-text" class="text-sm">—</span>
+        <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
+          <span class="suggestion-price" id="suggestion-price">—</span>
+          <button id="apply-suggestion-btn" class="btn btn-outline btn-sm" type="button">Apply</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="push-panel" class="editor-section hidden">
+      <h3>🔄 Push to channels</h3>
+      <button id="push-btn" class="btn btn-primary btn-sm" type="button" style="margin-bottom:12px;">Push this product</button>
+      <div class="sync-log" id="push-log">Save first, then push.</div>
+    </div>
+  </div>
+</div>
+
+<script src="js/db.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/login.js"></script>
+<script src="js/weather.js"></script>
+<script src="js/events.js"></script>
+<script src="js/pricing.js"></script>
+<script src="js/ota.js"></script>
+<script src="js/apihealth.js"></script>
+<script src="js/quiz.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
