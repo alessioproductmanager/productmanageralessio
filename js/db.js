@@ -11,7 +11,7 @@ App.CONFIG = {
   HUGGINGFACE_TOKEN: '', // intentionally empty — see README before adding a real one
   FOOTBALL_DATA_TOKEN: '', // paste your football-data.org token here — see README
   TOURNAMENT_CODE: 'WC',
-  STORAGE_KEY: 'tiqets_hub_db_v2',
+  STORAGE_KEY: 'tiqets_hub_db_v4',
 };
 
 App.AVATARS = ['🦁', '🐘', '🦋', '🐬', '🦉', '🦊', '🐯', '🐧', '🦄', '🐝'];

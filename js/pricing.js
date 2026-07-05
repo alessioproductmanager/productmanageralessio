@@ -18,7 +18,7 @@ App.Pricing = {
   explainSignals(weather, events, bookingWindow, match, dest) {
     const lines = [];
 
-    if (dest) {
+    if (dest && dest.openingHours) {
       const open = App.Hours.isOpenNow(dest);
       lines.push({
         icon: open ? '🟢' : '⚪',

@@ -60,10 +60,18 @@ App.Dashboard = {
     document.getElementById('ctx-city-name').textContent = dest.cityName;
     document.getElementById('pricing-signals').innerHTML = '<p class="text-muted text-sm">Reading live weather, nearby events and fixtures…</p>';
 
-    await this._fetchLiveData(dest);
+    // Product cards, API monitoring and marketing tiers must render regardless
+    // of whether the live-signals fetch below succeeds — they don't depend on it.
     App.Editor.renderGrid(key);
     App.ApiHealth.renderForDestination(key);
     App.Marketing.renderForDestination(key);
+
+    try {
+      await this._fetchLiveData(dest);
+    } catch (e) {
+      console.warn('Live signals failed to load; product tools still work.', e);
+      document.getElementById('pricing-signals').innerHTML = '<p class="text-muted text-sm">Signals unavailable right now — try Refresh.</p>';
+    }
   },
 
   /** Re-fetches weather/events/match for whichever destination is currently selected, without touching the product grid or API monitoring. */
@@ -71,7 +79,12 @@ App.Dashboard = {
     const dest = App.DB.load().destinations[this.currentKey];
     const btn = document.getElementById('refresh-signals-btn');
     if (userTriggered && btn) { btn.disabled = true; btn.textContent = '↻ Refreshing…'; }
-    await this._fetchLiveData(dest);
+    try {
+      await this._fetchLiveData(dest);
+    } catch (e) {
+      console.warn('Refresh failed.', e);
+      App.UI.toast('Could not refresh signals — try again.', 'error');
+    }
     if (userTriggered && btn) { btn.disabled = false; btn.textContent = '↻ Refresh now'; }
   },
 
