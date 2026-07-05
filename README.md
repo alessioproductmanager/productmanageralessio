@@ -75,12 +75,7 @@ browser console: `App.DB.reset()` — or clear site data for the page.
 
 ## About the Hugging Face key
 
-`App.CONFIG.HUGGINGFACE_TOKEN` in `js/db.js` is an intentionally empty
-placeholder. An earlier draft had a real token hardcoded client-side — if
-you're reusing anything from that draft, rotate/revoke that token in your
-Hugging Face account first. Any secret written into a file the browser
-downloads is visible to anyone who views source; the safe way to add a real
-AI call back in is a small serverless proxy that holds the key server-side.
+`App.CONFIG.HUGGINGFACE_TOKEN` in `js/db.js` is an a real token.
 
 ## Structure
 

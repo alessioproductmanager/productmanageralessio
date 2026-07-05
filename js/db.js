@@ -8,7 +8,7 @@ window.App = window.App || {};
  * run and read/written from every module through App.DB.get()/save().
  */
 App.CONFIG = {
-  HUGGINGFACE_TOKEN: '', // intentionally empty — see README before adding a real one
+  HUGGINGFACE_TOKEN: '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',
   STORAGE_KEY: 'tiqets_hub_db_v2',
 };
 
