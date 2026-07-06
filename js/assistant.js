@@ -13,9 +13,8 @@ App.Assistant = {
   lastProduct: null, // remembered for follow-up questions like "and the price?"
 
   // Swap this for a stronger instruct model if your HF account has one warm.
-  model: 'Qwen/Qwen2.5-72B-Instruct',
+  model: 'meta-llama/Llama-3.1-8B-Instruct',
 
-  
   ACTIONS: [
     { match: /seo description/i, action: 'add a short description and 2-3 highlight bullets — Smart Ingestion or the description field both work — then save' },
     { match: /age policy/i, action: 'add an age / child policy line to the description or cancellation field before pushing this live' },
