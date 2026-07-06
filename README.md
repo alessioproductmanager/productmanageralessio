@@ -1,4 +1,40 @@
-# Tiqets Supplier Tooling Hub — interview prototype (v4)
+# Tiqets Supplier Tooling Hub — interview prototype (v4.1)
+
+## Fixed: product cards could disappear if a live signal call hung
+
+If weather or fixture data never resolved (a slow/unresponsive network,
+not an error — errors were already caught), the whole Product Hub could
+sit on "Reading live weather…" forever with no product cards, because
+cards were rendered *after* awaiting that data. Fixed on three levels:
+
+1. Product cards, API Monitoring and Marketing Packages now render
+   **immediately**, each independently try/caught — before the live
+   signals fetch even starts. They never depend on it succeeding.
+2. Every network call (`js/weather.js`, `js/worldcup.js`) now has an
+   explicit `AbortController` timeout (8s), and the combined fetch in
+   `js/dashboard.js` has a hard 9s `Promise.race` timeout on top of that.
+   Nothing can hang indefinitely anymore — worst case, the signals card
+   shows "unavailable, try Refresh" after ~9 seconds.
+3. Reproduced with an automated test that force-hangs the network calls
+   forever, confirming cards appear instantly and the timeout recovers
+   cleanly. Also fixed a schema-mismatch that could crash the same
+   render chain for anyone with pre-v4 data cached in their browser
+   (bumped the storage key so old data is safely ignored).
+
+**If you still see this locally:** hard-refresh (Cmd/Ctrl+Shift+R) to
+rule out a cached old `.js` file, or better, serve the folder instead of
+double-clicking it — `npx serve venue-dashboard` — since opening via
+`file://` triggers real inconsistencies in how some browsers handle
+`fetch()` across origins that a local server avoids entirely.
+
+## The AI assistant is now conversational, not just command-matching
+
+`js/assistant.js`'s local fallback now handles greetings, thanks,
+catalog-wide questions ("how many products", "which are active", "what's
+the most expensive one"), and follow-up questions without re-naming the
+product ("and the price?", "what about that one?") via a remembered
+`lastProduct`. The Hugging Face path now sends recent conversation turns
+for context too, not just a single isolated question.
 
 A working prototype built for a Junior Product Manager (B2B Supplier Tooling)
 application at Tiqets. It simulates a channel-manager for cultural venues,

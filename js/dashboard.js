@@ -62,9 +62,10 @@ App.Dashboard = {
 
     // Product cards, API monitoring and marketing tiers must render regardless
     // of whether the live-signals fetch below succeeds — they don't depend on it.
-    App.Editor.renderGrid(key);
-    App.ApiHealth.renderForDestination(key);
-    App.Marketing.renderForDestination(key);
+    // Each is isolated so a problem in one can't take the others down with it.
+    try { App.Editor.renderGrid(key); } catch (e) { console.error('Product grid failed to render.', e); }
+    try { App.ApiHealth.renderForDestination(key); } catch (e) { console.error('API monitoring failed to render.', e); }
+    try { App.Marketing.renderForDestination(key); } catch (e) { console.error('Marketing tab failed to render.', e); }
 
     try {
       await this._fetchLiveData(dest);
@@ -89,10 +90,14 @@ App.Dashboard = {
   },
 
   async _fetchLiveData(dest) {
-    const [weather, events, match] = await Promise.all([
-      App.Weather.fetch(dest.lat, dest.lon),
-      App.Events.fetchNearby(this.currentKey),
-      App.WorldCup.fetchUpcoming(dest),
+    const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('Live data timed out')), 9000));
+    const [weather, events, match] = await Promise.race([
+      Promise.all([
+        App.Weather.fetch(dest.lat, dest.lon),
+        App.Events.fetchNearby(this.currentKey),
+        App.WorldCup.fetchUpcoming(dest),
+      ]),
+      timeout,
     ]);
     this.currentWeather = weather;
     this.currentEvents = events;

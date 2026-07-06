@@ -8,9 +8,11 @@ window.App = window.App || {};
  */
 App.Weather = {
   async fetch(lat, lon) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
     try {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`;
-      const res = await fetch(url);
+      const res = await fetch(url, { signal: controller.signal });
       if (!res.ok) throw new Error(`Open-Meteo responded ${res.status}`);
       const data = await res.json();
       const code = data.current.weather_code;
@@ -21,8 +23,10 @@ App.Weather = {
         live: true,
       };
     } catch (e) {
-      console.warn('Weather fetch failed, using fallback values.', e);
+      console.warn('Weather fetch failed or timed out, using fallback values.', e);
       return { tempC: 20, condition: 'Clear', isWet: false, live: false };
+    } finally {
+      clearTimeout(timeout);
     }
   },
 

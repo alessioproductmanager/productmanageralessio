@@ -17,7 +17,14 @@ App.WorldCup = {
       const to = new Date(Date.now() + 10 * 24 * 3600 * 1000);
       const fmt = (d) => d.toISOString().slice(0, 10);
       const url = `https://api.football-data.org/v4/competitions/${App.CONFIG.TOURNAMENT_CODE}/matches?dateFrom=${fmt(from)}&dateTo=${fmt(to)}`;
-      const res = await fetch(url, { headers: { 'X-Auth-Token': token } });
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      let res;
+      try {
+        res = await fetch(url, { headers: { 'X-Auth-Token': token }, signal: controller.signal });
+      } finally {
+        clearTimeout(timeout);
+      }
       if (!res.ok) throw new Error(`football-data.org responded ${res.status}`);
       const data = await res.json();
 

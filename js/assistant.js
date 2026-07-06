@@ -2,31 +2,30 @@ window.App = window.App || {};
 
 /**
  * Floating product assistant. With a Hugging Face token configured it
- * calls the Inference API; without one — or if that call fails or the
- * model is cold-loading — it falls back to a rule-based reply built
- * directly from the product data already in App.DB. Every reply is
- * tagged with its real source so this never overstates what answered.
+ * calls the Inference API (with recent turns for context); without one
+ * — or if that call fails or the model is cold-loading — it falls back
+ * to a conversational rule-based reply built from the product data
+ * already in App.DB. Every reply is tagged with its real source.
  */
 App.Assistant = {
   opened: false,
   history: [],
+  lastProduct: null, // remembered for follow-up questions like "and the price?"
 
   // Swap this for a stronger instruct model if your HF account has one warm.
   model: 'google/flan-t5-base',
 
   ACTIONS: [
-    { match: /seo description/i, action: 'Add a short description and 2-3 highlight bullets — Smart Ingestion or the description field both work — then save.' },
-    { match: /age policy/i, action: 'Add an age / child policy line to the description or cancellation field before pushing this live.' },
-    { match: /localized copy/i, action: 'Add a translated tagline and description for the local market before syncing to regional OTAs.' },
-    { match: /ticket variant/i, action: "Add at least one more ticket option (e.g. a 2-day or premium variant) to match this destination's usual catalog shape." },
-    { match: /payment method/i, action: 'Confirm local payment methods are enabled for this market before pushing to channels.' },
-    { match: /awaiting review/i, action: 'Review the auto-filled fields from Smart Ingestion, then push to your connected channels.' },
+    { match: /seo description/i, action: 'add a short description and 2-3 highlight bullets — Smart Ingestion or the description field both work — then save' },
+    { match: /age policy/i, action: 'add an age / child policy line to the description or cancellation field before pushing this live' },
+    { match: /localized copy/i, action: 'add a translated tagline and description for the local market before syncing to regional OTAs' },
+    { match: /ticket variant/i, action: "add at least one more ticket option (e.g. a 2-day or premium variant) to match this destination's usual catalog shape" },
+    { match: /payment method/i, action: 'confirm local payment methods are enabled for this market before pushing to channels' },
+    { match: /awaiting review/i, action: 'review the auto-filled fields from Smart Ingestion, then push to your connected channels' },
   ],
-  DEFAULT_ACTION: 'Open the product, fill in the missing field, save, then push it to your connected channels.',
+  DEFAULT_ACTION: 'open the product, fill in the missing field, save, then push it to your connected channels',
 
   init() {
-    document.getElementById('assistant-mode-tag').textContent =
-      App.CONFIG.FOOTBALL_DATA_TOKEN || App.CONFIG.HUGGINGFACE_TOKEN ? 'Checking…' : 'Local fallback';
     document.getElementById('assistant-mode-tag').textContent = App.CONFIG.HUGGINGFACE_TOKEN
       ? 'Hugging Face + local fallback'
       : 'Local fallback (no HF key)';
@@ -52,13 +51,18 @@ App.Assistant = {
   _greeting() {
     const products = this._currentProducts();
     const pending = products.filter(p => p.status !== 'Active');
-    if (!pending.length) return "Every product in this destination is Active. Ask me about a specific product any time.";
-    return `Hi, I'm looking at ${products.length} product(s) here. ${pending.length} need attention. Ask "what needs attention" or name a product.`;
+    const dest = this._currentDest();
+    const where = dest ? ` in ${dest.cityName}` : '';
+    if (!pending.length) return `Hi! All ${products.length} product(s)${where} are Active. Ask me about pricing, status, or anything else.`;
+    return `Hi! I'm looking at ${products.length} product(s)${where}. ${pending.length} need attention. Ask "what needs attention", name a product, or just chat.`;
+  },
+
+  _currentDest() {
+    return App.DB.load().destinations[App.Dashboard.currentKey] || null;
   },
 
   _currentProducts() {
-    const db = App.DB.load();
-    const dest = db.destinations[App.Dashboard.currentKey];
+    const dest = this._currentDest();
     return dest ? dest.products : [];
   },
 
@@ -83,18 +87,23 @@ App.Assistant = {
 
   async _callHuggingFace(question) {
     const products = this._currentProducts();
-    const context = products.map(p => `${p.id}: "${p.name}" — status ${p.status}, issue: ${p.issue}`).join('\n');
-    const prompt = `You manage a ticketing catalog. Products:\n${context}\n\nQuestion: ${question}\nGive one short, specific recommended action.`;
+    const context = products.map(p => `${p.id}: "${p.name}" — ${p.status}, €${p.price}, issue: ${p.issue}`).join('\n');
+    const recentTurns = this.history.slice(-4).map(m => `${m.role === 'user' ? 'Manager' : 'Assistant'}: ${m.text}`).join('\n');
+    const prompt = `You are a friendly assistant for a ticketing supplier dashboard. Catalog:\n${context}\n\nRecent conversation:\n${recentTurns}\n\nManager: ${question}\nAssistant:`;
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 12000);
-    const res = await fetch(`https://api-inference.huggingface.co/models/${this.model}`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${App.CONFIG.HUGGINGFACE_TOKEN}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ inputs: prompt }),
-      signal: controller.signal,
-    });
-    clearTimeout(timeout);
+    let res;
+    try {
+      res = await fetch(`https://api-inference.huggingface.co/models/${this.model}`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${App.CONFIG.HUGGINGFACE_TOKEN}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ inputs: prompt, parameters: { max_new_tokens: 100 } }),
+        signal: controller.signal,
+      });
+    } finally {
+      clearTimeout(timeout);
+    }
     if (!res.ok) throw new Error(`Hugging Face responded ${res.status}`);
     const data = await res.json();
     if (data.error) throw new Error(data.error);
@@ -104,28 +113,71 @@ App.Assistant = {
     return { text, source: 'huggingface' };
   },
 
+  // ---------- Conversational local fallback ----------
   _localReply(question) {
+    const q = question.toLowerCase().trim();
     const products = this._currentProducts();
-    const q = question.toLowerCase();
 
-    const named = products.find(p =>
-      q.includes(p.name.toLowerCase()) || q.includes(p.id.toLowerCase()) || p.name.toLowerCase().split(' ').some(w => w.length > 3 && q.includes(w))
-    );
-    if (named) return this._describeProduct(named);
+    if (/^(hi|hey|hello|ciao|yo)\b/.test(q)) return this._pick(["Hey! What do you want to know about the catalog?", "Hi there — ask me about a product, or what needs attention."]);
+    if (/thank/.test(q)) return this._pick(["Anytime.", "You're welcome — let me know if anything else comes up.", "Happy to help."]);
+    if (/^(bye|goodbye|see ya)/.test(q)) return "See you — I'll be here if you need anything else.";
+    if (/how are you|how's it going/.test(q)) return "Running fine — more importantly, how's the catalog looking? Want a status summary?";
 
-    const genericMarkers = ['attention', 'missing', 'status', 'help', 'todo', 'wrong', 'what should'];
+    // Catalog-wide questions
+    if (/how many|count/.test(q) && /product/.test(q)) {
+      return `There ${products.length === 1 ? 'is' : 'are'} ${products.length} product(s) here: ${products.filter(p => p.status === 'Active').length} Active, ${products.filter(p => p.status !== 'Active').length} need work.`;
+    }
+    if (/which (ones? )?(are )?active/.test(q) || (/active/.test(q) && /which|what/.test(q))) {
+      const active = products.filter(p => p.status === 'Active');
+      return active.length ? `Active: ${active.map(p => p.name).join(', ')}.` : 'None are Active yet here.';
+    }
+    if (/most expensive|highest price/.test(q)) {
+      const top = [...products].sort((a, b) => b.price - a.price)[0];
+      return top ? `${top.name} at ${top.currency}${top.price}.` : "There's nothing in the catalog yet.";
+    }
+    if (/cheapest|lowest price/.test(q)) {
+      const bottom = [...products].sort((a, b) => a.price - b.price)[0];
+      return bottom ? `${bottom.name} at ${bottom.currency}${bottom.price}.` : "There's nothing in the catalog yet.";
+    }
+
+    // Named product (with fuzzy match) — remember it for follow-ups
+    const named = this._matchProduct(q, products);
+    if (named) {
+      this.lastProduct = named;
+      if (/price|cost|how much/.test(q)) return `${named.name} is ${named.currency}${named.price}.`;
+      if (/rating|review/.test(q)) return `${named.name}: ${named.rating}★ across ${named.reviews.toLocaleString('en-GB')} reviews.`;
+      return this._describeProduct(named);
+    }
+
+    // Follow-up on the last product discussed, without naming it again
+    if (this.lastProduct && /\b(it|that one|this one|and the price|and status)\b/.test(q)) {
+      if (/price/.test(q)) return `${this.lastProduct.name} is ${this.lastProduct.currency}${this.lastProduct.price}.`;
+      return this._describeProduct(this.lastProduct);
+    }
+
+    const genericMarkers = ['attention', 'missing', 'status', 'help', 'todo', 'wrong', 'what should', 'pending', 'issue'];
     if (!q || genericMarkers.some(m => q.includes(m))) {
       const pending = products.filter(p => p.status !== 'Active');
       if (!pending.length) return 'Everything here is Active — nothing needs attention right now.';
-      return pending.map(p => `• ${p.name}: ${p.issue}. ${this._actionFor(p.issue)}`).join('\n');
+      return pending.map(p => `• ${p.name}: ${p.issue} — ${this._actionFor(p.issue)}.`).join('\n');
     }
 
-    return `I couldn't match a product to that. Try naming one directly, or ask "what needs attention".`;
+    return this._pick([
+      `Not sure I caught that. Try naming a product, or ask "what needs attention".`,
+      `I can talk about pricing, status, or what's missing on a product — what do you want to know?`,
+    ]);
+  },
+
+  _matchProduct(q, products) {
+    return products.find(p =>
+      q.includes(p.name.toLowerCase()) || q.includes(p.id.toLowerCase()) ||
+      p.name.toLowerCase().split(' ').some(w => w.length > 3 && q.includes(w))
+    );
   },
 
   _describeProduct(p) {
-    if (p.status === 'Active') return `${p.name} is Active — live on all connected channels. No action needed.`;
-    return `${p.name} is ${p.status}. Issue: ${p.issue}. ${this._actionFor(p.issue)}`;
+    if (p.status === 'Active') return `${p.name} is Active — live on all connected channels, ${p.currency}${p.price}. No action needed.`;
+    return `${p.name} is ${p.status} at ${p.currency}${p.price}. Issue: ${p.issue} — ${this._actionFor(p.issue)}.`;
   },
 
   _actionFor(issue) {
@@ -133,6 +185,11 @@ App.Assistant = {
     return hit ? hit.action : this.DEFAULT_ACTION;
   },
 
+  _pick(options) {
+    return options[Math.floor(Math.random() * options.length)];
+  },
+
+  // ---------- Rendering ----------
   _addMessage(role, text, source) {
     const id = `msg-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
     this.history.push({ id, role, text, source });
