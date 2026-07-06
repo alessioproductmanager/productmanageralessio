@@ -1,4 +1,38 @@
-# Tiqets Supplier Tooling Hub — interview prototype (v4.1)
+# Tiqets Supplier Tooling Hub — interview prototype (v4.2)
+
+## Errors are now visible, not silently swallowed
+
+Two places used to fail silently into a mock/local fallback with no way
+to tell why. Both now surface the real reason:
+
+- **World Cup fixtures**: if a football-data.org token is set but the
+  live call fails, the Read Me tab's "World Cup fixtures" row shows the
+  actual error (e.g. an HTTP status, or a CORS hint) instead of just
+  quietly showing the demo fixture forever. Timeouts are also enforced
+  (8s) so this can't hang either.
+- **AI Assistant**: if a Hugging Face call fails, the chat shows the real
+  HTTP error inline before falling back — 403 means the model is gated
+  (common for Meta Llama models — you must accept the license on the
+  model's HF page while logged in first), 404 means it isn't hosted on
+  the free serverless API at all (large models often aren't — that
+  requires paid Inference Endpoints), 503 means it's cold-loading.
+
+## Assistant is more conversational
+
+- Suggested-prompt chips appear on first open ("What needs attention?",
+  "Suggest a pricing strategy", etc.) so you don't have to guess what to
+  ask.
+- "Suggest a pricing strategy" (and similar open-ended phrasing) now
+  reflects the *actual* live weather/events/match/booking-window signals
+  and computes a real suggested price for a sample product — not a
+  canned tip — whether or not Hugging Face is configured.
+- The open-ended catch-all reply now states the real catalog numbers
+  instead of a dead-end "didn't understand".
+
+## Live Pricing Signals feels more alive
+
+Changing the booking window (or refreshing) now gives a brief visual
+pulse on the card, so the update is felt, not just read.
 
 ## Fixed: product cards could disappear if a live signal call hung
 

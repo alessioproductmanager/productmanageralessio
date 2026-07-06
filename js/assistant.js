@@ -2,18 +2,36 @@ window.App = window.App || {};
 
 /**
  * Floating product assistant. With a Hugging Face token configured it
- * calls the Inference API (with recent turns for context); without one
- * — or if that call fails or the model is cold-loading — it falls back
- * to a conversational rule-based reply built from the product data
- * already in App.DB. Every reply is tagged with its real source.
+ * calls the Inference API (with recent turns for context). If that call
+ * fails, the real reason is shown inline — gated/private models return
+ * 403, models not hosted on the free serverless API return 404, a
+ * cold-loading model returns 503 — rather than silently vanishing into
+ * the local fallback with no explanation. The fallback itself reflects
+ * the same live pricing signals shown on the dashboard, so open-ended
+ * questions like "suggest a pricing strategy" get a real, current answer
+ * instead of a canned non-reply.
  */
 App.Assistant = {
   opened: false,
   history: [],
-  lastProduct: null, // remembered for follow-up questions like "and the price?"
+  lastProduct: null,
 
-  // Swap this for a stronger instruct model if your HF account has one warm.
+  // Meta's Llama models are gated — you must accept the license on the
+  // model's Hugging Face page (while logged in) before any token can use
+  // it, otherwise every call 403s. Large instruct models are also often
+  // not hosted on the free serverless Inference API at all (404) — that
+  // tier is Inference Endpoints, a paid product. If this model fails,
+  // the chat will show you the exact HTTP error so you can tell which
+  // case you're in. flan-t5-base below is small and reliably available,
+  // but its answers are noticeably weaker — a real tradeoff, not a bug.
   model: 'meta-llama/Llama-3.1-8B-Instruct',
+
+  SUGGESTIONS: [
+    'What needs attention?',
+    'Suggest a pricing strategy',
+    'Which products are active?',
+    "What's the cheapest ticket?",
+  ],
 
   ACTIONS: [
     { match: /seo description/i, action: 'add a short description and 2-3 highlight bullets — Smart Ingestion or the description field both work — then save' },
@@ -26,9 +44,7 @@ App.Assistant = {
   DEFAULT_ACTION: 'open the product, fill in the missing field, save, then push it to your connected channels',
 
   init() {
-    document.getElementById('assistant-mode-tag').textContent = App.CONFIG.HUGGINGFACE_TOKEN
-      ? 'Hugging Face + local fallback'
-      : 'Local fallback (no HF key)';
+    this._updateModeTag();
 
     document.getElementById('assistant-form').addEventListener('submit', (e) => {
       e.preventDefault();
@@ -40,12 +56,29 @@ App.Assistant = {
     });
   },
 
+  _updateModeTag() {
+    document.getElementById('assistant-mode-tag').textContent = App.CONFIG.HUGGINGFACE_TOKEN
+      ? `Hugging Face (${this.model.split('/')[1] || this.model}) + local fallback`
+      : 'Local fallback (no HF key)';
+  },
+
   toggle() {
     this.opened = !this.opened;
     document.getElementById('assistant-panel').classList.toggle('hidden', !this.opened);
     if (this.opened && !this.history.length) {
+      this._updateModeTag();
       this._addMessage('bot', this._greeting(), 'local');
+      this._renderSuggestions();
     }
+  },
+
+  _renderSuggestions() {
+    const host = document.getElementById('assistant-suggestions');
+    if (!host) return;
+    host.innerHTML = this.SUGGESTIONS.map(s => `<button type="button" class="suggestion-chip">${s}</button>`).join('');
+    host.querySelectorAll('.suggestion-chip').forEach(btn => {
+      btn.addEventListener('click', () => { host.innerHTML = ''; this.send(btn.textContent); });
+    });
   },
 
   _greeting() {
@@ -53,8 +86,8 @@ App.Assistant = {
     const pending = products.filter(p => p.status !== 'Active');
     const dest = this._currentDest();
     const where = dest ? ` in ${dest.cityName}` : '';
-    if (!pending.length) return `Hi! All ${products.length} product(s)${where} are Active. Ask me about pricing, status, or anything else.`;
-    return `Hi! I'm looking at ${products.length} product(s)${where}. ${pending.length} need attention. Ask "what needs attention", name a product, or just chat.`;
+    if (!pending.length) return `Hi! All ${products.length} product(s)${where} are Active. Try one of these, or ask me anything:`;
+    return `Hi! I'm looking at ${products.length} product(s)${where}. ${pending.length} need attention. Try one of these, or ask anything:`;
   },
 
   _currentDest() {
@@ -75,14 +108,24 @@ App.Assistant = {
       try {
         reply = await this._callHuggingFace(question);
       } catch (e) {
-        console.warn('Hugging Face call failed, using local fallback.', e);
-        reply = { text: this._localReply(question), source: 'local' };
+        const diagnostic = this._explainHfError(e);
+        reply = { text: `⚠️ ${diagnostic}\n\n${this._localReply(question)}`, source: 'local' };
       }
     } else {
       reply = { text: this._localReply(question), source: 'local' };
     }
 
     this._updateMessage(thinkingId, reply.text, reply.source);
+  },
+
+  _explainHfError(e) {
+    const msg = e.message || String(e);
+    if (msg.includes('403')) return `Hugging Face error 403 (forbidden) — "${this.model}" is likely gated. Visit huggingface.co/${this.model}, accept the license while logged in, and make sure your token has read access. Local answer below:`;
+    if (msg.includes('404')) return `Hugging Face error 404 — "${this.model}" isn't hosted on the free serverless Inference API (common for large models; that needs paid Inference Endpoints instead). Try a smaller model like google/flan-t5-base. Local answer below:`;
+    if (msg.includes('503')) return `Hugging Face error 503 — the model is cold-loading. Try again in ~20s. Local answer below:`;
+    if (e.name === 'AbortError') return `Hugging Face request timed out after 12s. Local answer below:`;
+    if (msg.includes('Failed to fetch')) return `Network/CORS error reaching Hugging Face — if you opened this file directly (file://), try "npx serve" instead. Local answer below:`;
+    return `Hugging Face error: ${msg}. Local answer below:`;
   },
 
   async _callHuggingFace(question) {
@@ -98,13 +141,16 @@ App.Assistant = {
       res = await fetch(`https://api-inference.huggingface.co/models/${this.model}`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${App.CONFIG.HUGGINGFACE_TOKEN}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ inputs: prompt, parameters: { max_new_tokens: 100 } }),
+        body: JSON.stringify({ inputs: prompt, parameters: { max_new_tokens: 120 } }),
         signal: controller.signal,
       });
     } finally {
       clearTimeout(timeout);
     }
-    if (!res.ok) throw new Error(`Hugging Face responded ${res.status}`);
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      throw new Error(`${res.status} ${res.statusText}${body ? ' — ' + body.slice(0, 200) : ''}`);
+    }
     const data = await res.json();
     if (data.error) throw new Error(data.error);
 
@@ -123,7 +169,10 @@ App.Assistant = {
     if (/^(bye|goodbye|see ya)/.test(q)) return "See you — I'll be here if you need anything else.";
     if (/how are you|how's it going/.test(q)) return "Running fine — more importantly, how's the catalog looking? Want a status summary?";
 
-    // Catalog-wide questions
+    if (/pricing strateg|price strateg|how should i price|pricing advice|pricing tip/.test(q)) {
+      return this._pricingStrategyReply();
+    }
+
     if (/how many|count/.test(q) && /product/.test(q)) {
       return `There ${products.length === 1 ? 'is' : 'are'} ${products.length} product(s) here: ${products.filter(p => p.status === 'Active').length} Active, ${products.filter(p => p.status !== 'Active').length} need work.`;
     }
@@ -140,7 +189,6 @@ App.Assistant = {
       return bottom ? `${bottom.name} at ${bottom.currency}${bottom.price}.` : "There's nothing in the catalog yet.";
     }
 
-    // Named product (with fuzzy match) — remember it for follow-ups
     const named = this._matchProduct(q, products);
     if (named) {
       this.lastProduct = named;
@@ -149,7 +197,6 @@ App.Assistant = {
       return this._describeProduct(named);
     }
 
-    // Follow-up on the last product discussed, without naming it again
     if (this.lastProduct && /\b(it|that one|this one|and the price|and status)\b/.test(q)) {
       if (/price/.test(q)) return `${this.lastProduct.name} is ${this.lastProduct.currency}${this.lastProduct.price}.`;
       return this._describeProduct(this.lastProduct);
@@ -162,10 +209,32 @@ App.Assistant = {
       return pending.map(p => `• ${p.name}: ${p.issue} — ${this._actionFor(p.issue)}.`).join('\n');
     }
 
-    return this._pick([
-      `Not sure I caught that. Try naming a product, or ask "what needs attention".`,
-      `I can talk about pricing, status, or what's missing on a product — what do you want to know?`,
-    ]);
+    const pending = products.filter(p => p.status !== 'Active');
+    return `I don't have a scripted answer for that, but here's what's real right now: ${products.length} product(s), ${pending.length} pending. Try "suggest a pricing strategy", "what needs attention", or name a product.`;
+  },
+
+  /** Reflects the actual live pricing signals already computed on the dashboard — not a generic tip. */
+  _pricingStrategyReply() {
+    const dest = this._currentDest();
+    if (!dest) return "Pick a destination first and I can read its live signals.";
+    const weather = App.Dashboard.currentWeather;
+    const events = App.Dashboard.currentEvents;
+    const match = App.Dashboard.currentMatch;
+    const bookingWindow = App.Dashboard.getBookingWindow();
+    const staticCountdown = match
+      ? (match.kickoffUtc.getTime() > Date.now() ? `kickoff in ${App.Dashboard._formatDuration(match.kickoffUtc.getTime() - Date.now())}` : 'kicked off')
+      : null;
+    const lines = App.Pricing.explainSignals(weather, events, bookingWindow, match, dest, { staticCountdown })
+      .map(l => l.text.replace(/<[^>]+>/g, ''));
+
+    const products = this._currentProducts();
+    const sample = products.find(p => p.status === 'Active') || products[0];
+    let priceLine = '';
+    if (sample) {
+      const s = App.Pricing.computeSuggestion(sample, weather, events, bookingWindow, match, dest);
+      priceLine = `\n\nFor ${sample.name}: ${s.headline}, suggested ${sample.currency}${s.newPrice} (currently ${sample.currency}${sample.price}). Open it in Product Hub to apply.`;
+    }
+    return `Here's what's live right now for ${dest.cityName}:\n${lines.join('\n')}${priceLine}`;
   },
 
   _matchProduct(q, products) {

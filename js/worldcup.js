@@ -8,9 +8,11 @@ window.App = window.App || {};
  * IANA timezone via App.TZ — never the browser's.
  */
 App.WorldCup = {
+  lastError: null,
+
   async fetchUpcoming(dest) {
     const token = App.CONFIG.FOOTBALL_DATA_TOKEN;
-    if (!token) return this._mockFor(dest);
+    if (!token) { this.lastError = null; return this._mockFor(dest); }
 
     try {
       const from = new Date();
@@ -25,23 +27,39 @@ App.WorldCup = {
       } finally {
         clearTimeout(timeout);
       }
-      if (!res.ok) throw new Error(`football-data.org responded ${res.status}`);
+      if (!res.ok) {
+        const body = await res.text().catch(() => '');
+        throw new Error(`HTTP ${res.status} ${res.statusText}${body ? ' — ' + body.slice(0, 200) : ''}`);
+      }
       const data = await res.json();
 
-      const matches = (data.matches || []).map(m => ({
+      if (!data.matches || !data.matches.length) {
+        this.lastError = null; // token works fine, there just are no matches in this window
+        return this._mockFor(dest, true);
+      }
+
+      const matches = data.matches.map(m => ({
         home: m.homeTeam?.name || 'TBD',
         away: m.awayTeam?.name || 'TBD',
         kickoffUtc: new Date(m.utcDate),
         live: true,
       }));
+      this.lastError = null;
       return this._pickRelevant(matches, dest);
     } catch (e) {
-      console.warn('World Cup fetch failed, using mock fixtures.', e);
+      // A generic "Failed to fetch" with no HTTP status usually means CORS blocked the
+      // request — very common when opening this file directly (file:// → Origin: null).
+      // Serving it (`npx serve`) instead of double-clicking it often fixes this.
+      const reason = e.name === 'AbortError' ? 'Request timed out after 8s'
+        : e.message === 'Failed to fetch' ? 'Network/CORS error — try serving via `npx serve` instead of opening the file directly'
+        : e.message;
+      this.lastError = reason;
+      console.warn('World Cup fetch failed, using mock fixtures. Reason:', reason);
       return this._mockFor(dest);
     }
   },
 
-  _mockFor(dest) {
+  _mockFor(dest, tokenWorkedButNoMatches) {
     const today = new Date();
     const mock = [
       { home: 'France', away: 'Brazil', daysOut: 1, hour: 21, minute: 0 },
@@ -54,7 +72,9 @@ App.WorldCup = {
         kickoffUtc: App.TZ.zonedTimeToUtc(d.getFullYear(), d.getMonth() + 1, d.getDate(), m.hour, m.minute, dest.timezone),
       };
     });
-    return this._pickRelevant(mock, dest);
+    const picked = this._pickRelevant(mock, dest);
+    if (picked) picked.noRealMatchesInWindow = !!tokenWorkedButNoMatches;
+    return picked;
   },
 
   _pickRelevant(matches, dest) {

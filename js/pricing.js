@@ -15,7 +15,8 @@ App.Pricing = {
     return /dining|cirque|show|theatre|theater/i.test(`${product.name} ${product.tagline || ''}`);
   },
 
-  explainSignals(weather, events, bookingWindow, match, dest) {
+  explainSignals(weather, events, bookingWindow, match, dest, opts) {
+    opts = opts || {};
     const lines = [];
 
     if (dest && dest.openingHours) {
@@ -41,7 +42,9 @@ App.Pricing = {
 
     if (match) {
       const tag = match.live ? '' : ' (demo fixture)';
-      const countdown = ` · <span id="match-countdown" class="mono"></span>`;
+      const countdown = opts.staticCountdown
+        ? ` · ${opts.staticCountdown}`
+        : ` · <span id="match-countdown" class="mono"></span>`;
       const duringHours = dest ? App.Hours.isOpenAt(dest, match.kickoffUtc) : true;
       if (!duringHours) {
         lines.push({ icon: '⚽', text: `${match.home} vs ${match.away} — ${match.kickoffLabel} local time${tag}${countdown}. Kicks off outside opening hours — limited pricing impact for this venue.` });

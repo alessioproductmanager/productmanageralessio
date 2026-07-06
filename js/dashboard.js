@@ -104,6 +104,7 @@ App.Dashboard = {
     this.currentMatch = match;
     this.lastUpdated = new Date();
     this._refreshPricingCard();
+    if (document.getElementById('readme-services')) App.Docs.render();
   },
 
   _refreshPricingCard() {
@@ -117,6 +118,9 @@ App.Dashboard = {
     document.getElementById('pricing-signals').innerHTML = lines.map(l =>
       `<div class="signal-row"><span>${l.icon}</span><span>${l.text}</span></div>`
     ).join('');
+
+    const card = document.getElementById('pricing-signals').closest('.card');
+    if (card) { card.classList.remove('pulse-update'); void card.offsetWidth; card.classList.add('pulse-update'); }
 
     this._tickClock();
   },

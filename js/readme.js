@@ -47,10 +47,12 @@ App.Docs = {
       { name: 'Nearby events', detail: 'Fixed demo dataset (js/events.js)', live: false },
       {
         name: 'World Cup fixtures',
-        detail: App.CONFIG.FOOTBALL_DATA_TOKEN
-          ? 'football-data.org — live fixtures for the configured token'
-          : 'No token configured — showing demo fixtures (js/worldcup.js)',
-        live: !!App.CONFIG.FOOTBALL_DATA_TOKEN,
+        detail: !App.CONFIG.FOOTBALL_DATA_TOKEN
+          ? 'No token configured — showing demo fixtures (js/worldcup.js)'
+          : App.WorldCup.lastError
+            ? `Token set, but the live call failed: ${App.WorldCup.lastError}`
+            : 'football-data.org — live fixtures for the configured token',
+        live: !!App.CONFIG.FOOTBALL_DATA_TOKEN && !App.WorldCup.lastError,
       },
       { name: 'Smart Ingestion', detail: 'Keyword match on the pasted URL text, not real scraping', live: false },
       { name: 'OTA connect (GetYourGuide, Viator, Klook, Expedia)', detail: 'Mock OAuth — no real partner credentials', live: false },
