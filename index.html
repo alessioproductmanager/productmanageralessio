@@ -235,12 +235,13 @@
     background:var(--surface);border:2px solid var(--line);
     display:flex;align-items:center;justify-content:center;
     margin:0 auto 12px;
-    font-family:'Fraunces',serif;font-size:15px;font-weight:600;
     color:var(--muted);
     transition:all .25s;
     cursor:pointer;
     position:relative;
   }
+  .ico{width:14px;height:14px;flex-shrink:0;stroke-width:1.7}
+  .stage-dot .ico{width:19px;height:19px;stroke-width:1.6}
   .stage.active .stage-dot{
     background:var(--accent);
     border-color:var(--accent);
@@ -353,8 +354,14 @@
         <div class="hero-role">Project &amp; Product Manager</div>
         <div class="hero-meta">
           <span class="pill live">The Randstad, NL</span>
-          <span class="pill">🌍 Remote-friendly</span>
-          <span class="pill">🇮🇹 IT · 🇬🇧 EN · 🇫🇷 FR · 🇳🇱 NL</span>
+          <span class="pill">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13.5 13.5 0 010 18M12 3a13.5 13.5 0 000 18"/></svg>
+            Remote-friendly
+          </span>
+          <span class="pill">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l6 6"/><path d="M4 14l6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/></svg>
+            IT · EN · FR · NL
+          </span>
         </div>
         <div class="hero-actions">
           <a class="btn btn-primary" href="https://www.linkedin.com/in/alessioare/" target="_blank" rel="noopener">
@@ -523,42 +530,54 @@
       <div class="journey-track" id="journey-track">
 
         <div class="stage done" data-stage="0">
-          <div class="stage-dot">🎓</div>
+          <div class="stage-dot">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/><path d="M22 10v6"/></svg>
+          </div>
           <div class="stage-year">2013–17</div>
           <div class="stage-label">Foundations</div>
-          <div class="stage-desc">Applied languages & tourism</div>
+          <div class="stage-desc">Applied languages &amp; tourism</div>
         </div>
 
         <div class="stage done" data-stage="1">
-          <div class="stage-dot">🌐</div>
+          <div class="stage-dot">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="16" y="16" width="6" height="6" rx="1"/><path d="M12 8v3"/><path d="M5 16v-3h14v3"/></svg>
+          </div>
           <div class="stage-year">2018–20</div>
           <div class="stage-label">B2B APIs</div>
           <div class="stage-desc">Fortune 500 rollout</div>
         </div>
 
         <div class="stage done" data-stage="2">
-          <div class="stage-dot">⚙️</div>
+          <div class="stage-dot">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 4 4 6-6"/><path d="M15 9h6v6"/></svg>
+          </div>
           <div class="stage-year">2020–23</div>
-          <div class="stage-label">Ops & KPIs</div>
+          <div class="stage-label">Ops &amp; KPIs</div>
           <div class="stage-desc">Marketplace lifecycle</div>
         </div>
 
         <div class="stage done" data-stage="3">
-          <div class="stage-dot">🔌</div>
+          <div class="stage-dot">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2v6"/><path d="M15 2v6"/><path d="M6 8h12"/><path d="M6 8v3a6 6 0 0012 0V8"/><path d="M12 17v5"/></svg>
+          </div>
           <div class="stage-year">2023–24</div>
           <div class="stage-label">API delivery</div>
           <div class="stage-desc">Bókun · TourCMS</div>
         </div>
 
         <div class="stage done" data-stage="4">
-          <div class="stage-dot">🧭</div>
+          <div class="stage-dot">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M16.24 7.76L14.12 14.12 7.76 16.24l2.12-6.36z"/></svg>
+          </div>
           <div class="stage-year">2025</div>
           <div class="stage-label">Senior lead</div>
-          <div class="stage-desc">Frameworks & docs</div>
+          <div class="stage-desc">Frameworks &amp; docs</div>
         </div>
 
         <div class="stage active" data-stage="5">
-          <div class="stage-dot">🚀</div>
+          <div class="stage-dot">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+          </div>
           <div class="stage-year">Now</div>
           <div class="stage-label">Project Manager</div>
           <div class="stage-desc">Platform initiatives</div>
