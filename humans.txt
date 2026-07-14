@@ -1,0 +1,19 @@
+/* TEAM */
+Name: Alessio Are
+Role: Project & Product Manager
+Location: The Randstad, Netherlands · Remote-friendly
+LinkedIn: https://www.linkedin.com/in/alessioare/
+
+/* CERTIFICATIONS */
+PRINCE2®
+CAPM® — Certified Associate in Project Management
+Six Sigma Yellow Belt
+ISO 56002 — Innovation Management
+
+/* LANGUAGES */
+Italian · English · French · Dutch
+
+/* SITE */
+Last update: 2026/07
+Standards: HTML5, CSS3, semantic markup, schema.org (Person, ProfilePage, WebSite)
+Components: hand-written, no framework, single-file
