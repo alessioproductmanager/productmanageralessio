@@ -3,508 +3,685 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tiqets Supplier Tooling Hub — Alessio Are</title>
-<link rel="stylesheet" href="css/variables.css">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/components.css">
-<link rel="stylesheet" href="css/login.css">
-<link rel="stylesheet" href="css/start.css">
-<link rel="stylesheet" href="css/editor.css">
-<link rel="stylesheet" href="css/assistant.css">
-<link rel="stylesheet" href="css/animations.css">
+<title>Alessio Are — Project & Product Manager</title>
+<meta name="description" content="Alessio Are — Project & Product Manager. PRINCE2, CAPM, SSYB, ISO 56002 certified. Based in The Randstad, Netherlands. Remote-friendly.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap">
+<style>
+  /* ============ RESET / BASE ============ */
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+  :root{
+    --bg:#FAFAF7;
+    --surface:#FFFFFF;
+    --ink:#141414;
+    --ink-2:#3A3A3A;
+    --muted:#767671;
+    --line:#E8E6DE;
+    --accent:#B84A25;
+    --accent-soft:#F4E4DA;
+    --shadow-sm:0 1px 2px rgba(20,20,20,.04),0 1px 3px rgba(20,20,20,.06);
+    --shadow-md:0 4px 12px rgba(20,20,20,.06),0 2px 4px rgba(20,20,20,.04);
+    --radius:14px;
+    --radius-sm:10px;
+    --maxw:900px;
+  }
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    font-size:15px;
+    line-height:1.55;
+    font-weight:400;
+  }
+  ::selection{background:var(--accent);color:#fff}
+  h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.01em;line-height:1.15;color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+
+  /* ============ HERO ============ */
+  .hero{padding:72px 0 56px}
+  .hero-row{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:32px;
+    align-items:center;
+  }
+  .avatar{
+    width:140px;height:140px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--accent-soft) 0%, #E8D5C4 100%);
+    border:3px solid var(--surface);
+    box-shadow:var(--shadow-md);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;
+    font-size:52px;
+    font-weight:500;
+    color:var(--accent);
+    letter-spacing:-.02em;
+    overflow:hidden;
+    position:relative;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .avatar-hint{
+    position:absolute;bottom:0;left:0;right:0;
+    background:rgba(20,20,20,.72);color:#fff;
+    font-family:'Inter',sans-serif;font-size:9px;font-weight:600;
+    text-transform:uppercase;letter-spacing:.08em;
+    padding:4px 0;opacity:0;transition:opacity .2s;
+    text-align:center;
+  }
+  .avatar:hover .avatar-hint{opacity:1}
+  .hero-info h1{font-size:44px;margin-bottom:6px}
+  .hero-role{color:var(--muted);font-size:16px;margin-bottom:14px;font-weight:500}
+  .hero-meta{
+    display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;
+    font-size:13.5px;color:var(--ink-2);font-weight:500;
+    margin-bottom:14px;
+  }
+  .hero-meta .dot{width:4px;height:4px;border-radius:50%;background:var(--muted);display:inline-block;margin:0 4px}
+  .pill{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--surface);border:1px solid var(--line);
+    padding:5px 11px;border-radius:999px;
+    font-size:12.5px;font-weight:500;
+    transition:all .18s;
+  }
+  .pill.live::before{content:'';width:6px;height:6px;border-radius:50%;background:#22a76e;box-shadow:0 0 0 3px rgba(34,167,110,.18)}
+  .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+  .btn{
+    display:inline-flex;align-items:center;gap:7px;
+    padding:9px 16px;border-radius:999px;
+    font-size:13.5px;font-weight:600;letter-spacing:-.005em;
+    transition:all .18s;
+    border:1px solid transparent;
+  }
+  .btn-primary{background:var(--ink);color:#fff}
+  .btn-primary:hover{background:var(--accent);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--ink);background:var(--surface)}
+  .btn svg{width:15px;height:15px}
+
+  /* ============ CERTS BAR ============ */
+  .certs{
+    padding:22px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+    background:linear-gradient(to bottom,transparent,rgba(184,74,37,.02));
+  }
+  .certs-inner{display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center;justify-content:center}
+  .cert{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:6px 12px 6px 8px;border-radius:8px;
+    background:var(--surface);border:1px solid var(--line);
+    font-size:12.5px;font-weight:600;letter-spacing:-.005em;
+  }
+  .cert-badge{
+    width:22px;height:22px;border-radius:6px;
+    background:var(--accent);color:#fff;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:10px;font-weight:700;
+  }
+  .cert-badge.alt{background:var(--ink)}
+  .cert-badge.alt2{background:#2d6a4f}
+  .cert-badge.alt3{background:#5c4b8a}
+
+  /* ============ SECTIONS ============ */
+  section{padding:56px 0}
+  .section-label{
+    display:inline-block;
+    font-size:11.5px;font-weight:700;letter-spacing:.14em;
+    color:var(--accent);text-transform:uppercase;
+    margin-bottom:10px;
+  }
+  .section-title{font-size:30px;margin-bottom:8px;letter-spacing:-.015em}
+  .section-lead{color:var(--muted);font-size:15px;max-width:600px;margin-bottom:36px}
+
+  /* ============ TIMELINE ============ */
+  .timeline{position:relative;padding-left:0}
+  .tl-item{
+    position:relative;
+    display:grid;
+    grid-template-columns:100px 1fr;
+    gap:24px;
+    padding:18px 0;
+    border-top:1px solid var(--line);
+    cursor:pointer;
+    transition:background .2s;
+  }
+  .tl-item:hover{background:rgba(184,74,37,.02)}
+  .tl-item:last-child{border-bottom:1px solid var(--line)}
+  .tl-year{
+    font-family:'Fraunces',serif;
+    font-size:15px;font-weight:500;
+    color:var(--accent);
+    padding-top:4px;
+    white-space:nowrap;
+  }
+  .tl-year-end{display:block;font-size:12px;color:var(--muted);font-weight:400;margin-top:2px}
+  .tl-main{padding-right:12px}
+  .tl-header{
+    display:flex;justify-content:space-between;align-items:flex-start;
+    gap:12px;
+  }
+  .tl-role{font-size:17px;font-weight:600;color:var(--ink);margin-bottom:2px;letter-spacing:-.01em}
+  .tl-company{font-size:14px;color:var(--ink-2);font-weight:500}
+  .tl-company .current{color:var(--accent);font-weight:600}
+  .tl-toggle{
+    width:26px;height:26px;border-radius:50%;
+    background:var(--surface);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--muted);font-size:13px;flex-shrink:0;
+    transition:all .2s;
+  }
+  .tl-item:hover .tl-toggle{border-color:var(--accent);color:var(--accent)}
+  .tl-item.open .tl-toggle{background:var(--accent);color:#fff;border-color:var(--accent);transform:rotate(45deg)}
+  .tl-details{
+    max-height:0;overflow:hidden;
+    transition:max-height .35s ease,margin .35s ease;
+  }
+  .tl-item.open .tl-details{max-height:600px;margin-top:14px}
+  .tl-details ul{list-style:none;padding:0}
+  .tl-details li{
+    position:relative;padding-left:18px;
+    font-size:14px;line-height:1.6;color:var(--ink-2);
+    margin-bottom:8px;
+  }
+  .tl-details li::before{
+    content:'';position:absolute;left:2px;top:9px;
+    width:6px;height:1px;background:var(--accent);
+  }
+  .tl-details li:last-child{margin-bottom:0}
+  .tl-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+  .tl-tag{
+    font-size:11px;font-weight:600;letter-spacing:.02em;
+    padding:3px 9px;border-radius:999px;
+    background:var(--accent-soft);color:var(--accent);
+  }
+
+  /* ============ JOURNEY / TAPPE VISUAL ============ */
+  .journey-wrap{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:32px 28px;
+    box-shadow:var(--shadow-sm);
+  }
+  .journey-track{
+    position:relative;
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:0;
+    margin-top:16px;
+  }
+  .journey-track::before{
+    content:'';
+    position:absolute;
+    top:22px;left:calc(100%/12);right:calc(100%/12);height:2px;
+    background:linear-gradient(to right,var(--line) 0%,var(--accent) 25%,var(--accent) 75%,var(--line) 100%);
+    z-index:0;
+  }
+  .stage{
+    position:relative;
+    text-align:center;
+    padding:0 6px;
+    z-index:1;
+  }
+  .stage-dot{
+    width:44px;height:44px;border-radius:50%;
+    background:var(--surface);border:2px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 12px;
+    font-family:'Fraunces',serif;font-size:15px;font-weight:600;
+    color:var(--muted);
+    transition:all .25s;
+    cursor:pointer;
+    position:relative;
+  }
+  .stage.active .stage-dot{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:#fff;
+    box-shadow:0 0 0 5px rgba(184,74,37,.15);
+  }
+  .stage.done .stage-dot{
+    background:var(--surface);
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  .stage:hover .stage-dot{transform:scale(1.08)}
+  .stage-year{
+    font-size:11px;font-weight:700;letter-spacing:.06em;
+    color:var(--muted);text-transform:uppercase;margin-bottom:3px;
+  }
+  .stage.active .stage-year{color:var(--accent)}
+  .stage-label{
+    font-size:12.5px;font-weight:600;
+    color:var(--ink);letter-spacing:-.005em;
+    line-height:1.3;
+  }
+  .stage-desc{
+    font-size:11.5px;color:var(--muted);
+    margin-top:3px;line-height:1.4;
+  }
+  .journey-detail{
+    margin-top:28px;padding-top:24px;
+    border-top:1px dashed var(--line);
+    min-height:80px;
+  }
+  .journey-detail h4{
+    font-family:'Inter',sans-serif;font-size:12px;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;
+    color:var(--accent);margin-bottom:8px;
+  }
+  .journey-detail .jd-title{
+    font-family:'Fraunces',serif;font-size:22px;font-weight:500;
+    margin-bottom:6px;letter-spacing:-.01em;
+  }
+  .journey-detail .jd-desc{font-size:14px;color:var(--ink-2);line-height:1.6}
+
+  /* ============ EDUCATION ============ */
+  .edu-grid{display:grid;gap:14px}
+  .edu-item{
+    display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:flex-start;
+    padding:16px 18px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+  }
+  .edu-icon{
+    width:36px;height:36px;border-radius:8px;
+    background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Fraunces',serif;font-size:16px;font-weight:600;
+  }
+  .edu-degree{font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:2px;letter-spacing:-.005em}
+  .edu-inst{font-size:13px;color:var(--muted);line-height:1.5}
+
+  /* ============ FOOTER ============ */
+  footer{
+    padding:44px 0;
+    border-top:1px solid var(--line);
+    margin-top:24px;
+    text-align:center;
+    color:var(--muted);
+    font-size:12.5px;
+  }
+  footer a{color:var(--ink-2);font-weight:500;border-bottom:1px solid var(--line);padding-bottom:1px}
+  footer a:hover{border-bottom-color:var(--accent);color:var(--accent)}
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width:720px){
+    .hero{padding:48px 0 40px}
+    .hero-row{grid-template-columns:1fr;gap:22px;text-align:center;justify-items:center}
+    .hero-info{width:100%}
+    .hero-meta{justify-content:center}
+    .hero-actions{justify-content:center}
+    .avatar{width:108px;height:108px;font-size:40px}
+    .hero-info h1{font-size:34px}
+    section{padding:44px 0}
+    .section-title{font-size:24px}
+    .tl-item{grid-template-columns:1fr;gap:6px;padding:16px 0}
+    .tl-year{padding-top:0;font-size:13px}
+    .tl-header{align-items:center}
+    .journey-wrap{padding:22px 16px}
+    .journey-track{grid-template-columns:repeat(3,1fr);gap:20px 0;row-gap:24px}
+    .journey-track::before{display:none}
+    .stage-dot{width:38px;height:38px;font-size:13px}
+    .stage-label{font-size:11.5px}
+    .stage-desc{display:none}
+  }
+</style>
 </head>
 <body>
 
-<!-- ============ LOGIN (name + avatar) ============ -->
-<div id="login-screen">
-  <div class="badge-wrap">
-    <div class="badge-brand">
-      <div style="font-weight:700; font-size:15px; letter-spacing:0.02em;">TIQETS <span class="dot-mark">·</span> SUPPLIER TOOLING HUB</div>
-      <p>Sign in with a name so your edits carry your name.</p>
+<div class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-row">
+      <div class="avatar" title="Add your photo — replace the AA initials by placing photo.jpg next to index.html">
+        <!-- Sostituisci con: <img src="photo.jpg" alt="Alessio Are"> -->
+        AA
+        <span class="avatar-hint">Add photo</span>
+      </div>
+      <div class="hero-info">
+        <h1>Alessio Are</h1>
+        <div class="hero-role">Project &amp; Product Manager</div>
+        <div class="hero-meta">
+          <span class="pill live">The Randstad, NL</span>
+          <span class="pill">🌍 Remote-friendly</span>
+          <span class="pill">🇮🇹 IT · 🇬🇧 EN · 🇫🇷 FR · 🇳🇱 NL</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://www.linkedin.com/in/alessioare/" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"/></svg>
+            LinkedIn
+          </a>
+          <a class="btn btn-ghost" href="#experience">See track record ↓</a>
+        </div>
+      </div>
     </div>
-    <div class="staff-badge">
-      <div class="badge-eyebrow">Staff badge</div>
-      <div class="avatar-preview" id="avatar-preview">🙂</div>
-      <form id="login-form">
-        <input id="login-name" placeholder="Your name" autocomplete="off">
-        <div class="avatar-grid" id="avatar-grid"></div>
-        <button type="submit" class="btn btn-primary btn-block">Start</button>
-      </form>
-      <div class="badge-id-line">NO PASSWORD · LOCAL DEMO ONLY</div>
+  </section>
+
+  <!-- ============ CERTS BAR ============ -->
+  <div class="certs">
+    <div class="certs-inner">
+      <span class="cert"><span class="cert-badge">P2</span>PRINCE2®</span>
+      <span class="cert"><span class="cert-badge alt">C</span>CAPM®</span>
+      <span class="cert"><span class="cert-badge alt2">SS</span>Six Sigma Yellow Belt</span>
+      <span class="cert"><span class="cert-badge alt3">ISO</span>ISO 56002 — Innovation Management</span>
     </div>
   </div>
-</div>
 
-<!-- ============ START SCREEN (one question, homepage-style) ============ -->
-<div id="start-screen" class="hidden">
-  <div class="start-wrap">
-    <div class="start-brand">TIQETS <span class="dot-mark">·</span> SUPPLIER TOOLING HUB</div>
-    <h1 class="start-question">Where do you want to start today?</h1>
-    <div id="start-options" class="start-options"></div>
-  </div>
-</div>
+  <!-- ============ EXPERIENCE — INTERACTIVE TIMELINE ============ -->
+  <section id="experience">
+    <span class="section-label">01 · Track record</span>
+    <h2 class="section-title">Step by step, what I've been building</h2>
+    <p class="section-lead">Six years growing from configuration into API delivery and project leadership. Click any role to expand what it delivered.</p>
 
-<!-- ============ MAIN APP ============ -->
-<div id="main-app" class="hidden">
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-logo">Tiqets <span class="dot-mark">·</span> Supplier Tooling Hub</div>
-      <div class="nav-tabs">
-        <button class="tab-btn active" onclick="App.UI.switchTab('view-hub', this)">Product Hub</button>
-        <button class="tab-btn" onclick="App.UI.switchTab('view-sync', this)">Channel Sync</button>
-        <button class="tab-btn" onclick="App.UI.switchTab('view-marketing', this)">Marketing Packages</button>
-        <button class="tab-btn" onclick="App.UI.switchTab('view-health', this)">API Monitoring</button>
-        <button class="tab-btn" onclick="App.UI.switchTab('view-readme', this)">Read Me</button>
-        <button class="tab-btn" onclick="App.UI.switchTab('view-cv', this)">Alessio CV</button>
-      </div>
-    </div>
-  </nav>
+    <div class="timeline">
 
-  <div class="container">
-
-    <!-- ===== TAB: PRODUCT HUB ===== -->
-    <div id="view-hub" class="page-view active">
-      <header class="header">
-        <div>
-          <h1>Product Hub</h1>
-          <p>Add or edit a product, see live context, push it everywhere.</p>
-        </div>
-        <select id="destination-selector"></select>
-      </header>
-
-      <div class="card">
-        <h3>
-          <span class="title-group">📍 Live pricing signals — <span id="ctx-city-name" style="text-transform:none; letter-spacing:0;">—</span></span>
-          <span style="display:flex; align-items:center; gap:8px; text-transform:none; letter-spacing:0; font-weight:500;">
-            <span class="dot dot-live"></span>
-            <span id="signals-updated-at" class="text-sm text-muted">—</span>
-            <button id="refresh-signals-btn" class="btn btn-outline btn-sm" type="button">↻ Refresh now</button>
-          </span>
-        </h3>
-        <div class="grid-small" style="margin-bottom:14px;">
-          <div>
-            <span class="metric-label">Live temperature</span>
-            <span class="metric" id="live-temp" style="font-size:24px;">--</span>
-            <div class="demo-note" style="margin-top:4px;"><span class="dot dot-live"></span><span id="weather-source">Live · Open-Meteo</span></div>
+      <div class="tl-item" data-role="pm">
+        <div class="tl-year">2025<span class="tl-year-end">→ Present</span></div>
+        <div class="tl-main">
+          <div class="tl-header">
+            <div>
+              <div class="tl-role">Project Manager</div>
+              <div class="tl-company">Tiqets · <span class="current">Current</span></div>
+            </div>
+            <div class="tl-toggle" aria-hidden="true">+</div>
           </div>
-          <div>
-            <span class="metric-label">Booking window</span>
-            <select id="booking-window">
-              <option value="soon">This week</option>
-              <option value="medium" selected>Next few weeks</option>
-              <option value="far">1+ month away</option>
-            </select>
-          </div>
-        </div>
-        <div id="pricing-signals"><p class="text-muted text-sm">Loading…</p></div>
-        <p class="citation-note" id="pricing-citation"></p>
-      </div>
-
-      <div id="product-grid" class="product-grid"></div>
-    </div>
-
-    <!-- ===== TAB: CHANNEL SYNC ===== -->
-    <div id="view-sync" class="page-view">
-      <header class="header">
-        <div>
-          <h1>Channel Sync</h1>
-          <p>Connect OTA partners once. Pushes happen from each product's edit screen.</p>
-        </div>
-      </header>
-
-      <div class="card">
-        <h3><span class="title-group">🔌 Connected channels</span> <span class="demo-note">Mock OAuth</span></h3>
-        <div class="ota-grid" id="ota-grid"></div>
-      </div>
-
-      <div class="card">
-        <h3>🕘 Recent activity</h3>
-        <div id="activity-feed"></div>
-      </div>
-    </div>
-
-    <!-- ===== TAB: MARKETING PACKAGES ===== -->
-    <div id="view-marketing" class="page-view">
-      <header class="header">
-        <div>
-          <h1>Marketing Packages</h1>
-          <p>Buy visibility budget for one product across Google, Meta and TikTok.</p>
-        </div>
-        <select id="marketing-product-selector"></select>
-      </header>
-
-      <div class="card">
-        <h3>🤖 AI suggestion <span class="demo-note">Rule-based on this product's own data</span></h3>
-        <div id="marketing-ai-suggestion"></div>
-      </div>
-
-      <div id="marketing-tiers" class="tier-grid"></div>
-    </div>
-
-    <!-- ===== TAB: API MONITORING ===== -->
-    <div id="view-health" class="page-view">
-      <header class="header">
-        <div>
-          <h1>API Monitoring</h1>
-          <p>Per product, split by call type. Simulated telemetry — no real Disney backend exists.</p>
-        </div>
-      </header>
-
-      <div class="grid-3" style="margin-bottom:20px;">
-        <div class="card" style="margin-bottom:0;">
-          <span class="metric-label">Avg latency (all calls)</span>
-          <span class="metric" id="health-latency">--</span>
-        </div>
-        <div class="card" style="margin-bottom:0;">
-          <span class="metric-label">Success rate</span>
-          <span class="metric" id="health-success-rate">--</span>
-        </div>
-        <div class="card" style="margin-bottom:0;">
-          <span class="metric-label">Status</span>
-          <span class="badge badge-success"><span class="dot dot-live"></span> Operational</span>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>Per-product breakdown <span class="demo-note">Availability · Reservation · Booking · Cancellation</span></h3>
-        <div id="health-grid"></div>
-      </div>
-
-      <div class="card">
-        <h3>Event log <span class="demo-note">Simulated telemetry — demo only</span></h3>
-        <div class="health-log" id="health-log"></div>
-      </div>
-    </div>
-
-    <!-- ===== TAB: READ ME ===== -->
-    <div id="view-readme" class="page-view">
-      <header class="header">
-        <div>
-          <h1>Read Me</h1>
-          <p>What this is, what's real, what's mocked — and why it's built this way.</p>
-        </div>
-      </header>
-
-      <div class="card">
-        <h3>🎯 Goal</h3>
-        <p class="text-sm" style="line-height:1.65;">
-          1. Manage products quickly and effectively, kept in sync across different distribution platforms instead of manual copy-paste per OTA.<br><br>
-          2. Price them using live context — weather, nearby events, and now live sports fixtures — instead of a single static seasonal price.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>🔑 Add your own API keys <span class="demo-note">Stored only in your browser</span></h3>
-        <p class="text-sm text-muted" style="margin-bottom:14px; line-height:1.6;">
-          These fields save to this browser's local storage only. They are
-          never written into the code, so a public repo of this project
-          never contains a real key — nothing for GitHub/Hugging Face
-          secret-scanning to find or revoke.
-        </p>
-        <form id="keys-form" style="display:flex; flex-direction:column; gap:12px;">
-          <div>
-            <label class="field-label">Hugging Face token</label>
-            <input id="key-huggingface" type="password" placeholder="hf_…" autocomplete="off">
-          </div>
-          <div>
-            <label class="field-label">football-data.org token</label>
-            <input id="key-footballdata" type="password" placeholder="Your X-Auth-Token" autocomplete="off">
-          </div>
-          <div style="display:flex; gap:8px;">
-            <button type="submit" class="btn btn-primary btn-sm">Save keys</button>
-            <button type="button" id="keys-clear-btn" class="btn btn-outline btn-sm">Clear</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="card">
-        <h3>🔌 Connected services</h3>
-        <div id="readme-services"></div>
-      </div>
-
-      <div class="card">
-        <h3>🗂️ Architecture</h3>
-        <p class="text-sm" style="line-height:1.65;">
-          Single-page app, no build step. <span class="mono">js/db.js</span> is the only source of
-          truth (persisted to <span class="mono">localStorage</span>) — every other module reads and
-          writes through it. <span class="mono">js/editor.js</span> is the core: product cards, the
-          create/edit modal, the live Tiqets-style preview, and the push panel all live there.
-          <span class="mono">js/pricing.js</span> is pure functions — given weather, events, a match
-          and a booking window, it returns a suggestion. No module reaches into another's DOM directly.
-        </p>
-      </div>
-
-      <div class="card">
-        <h3>📄 Notes for whoever's reviewing this</h3>
-        <pre id="readme-raw" class="health-log" style="max-height:420px; white-space:pre-wrap;">This is a portfolio prototype for a Junior PM (B2B Supplier Tooling) role at
-Tiqets — a channel-manager for cultural venues. It's built to demo two
-things a real supplier tool needs: fast product creation/editing with a
-live preview, and pricing decisions backed by live context.
-
-Every mocked piece is labeled in the UI itself, not just in this doc —
-"demo note", "mock OAuth", "simulated telemetry" tags appear right where
-that data shows up, so nothing here overstates what's actually wired to a
-real service.
-
-The "database" is localStorage, wrapped in js/db.js. There is no server;
-a real version of this tool would swap that one file for API calls and
-leave every other module untouched, since they all read/write through it.
-
-See the full README.md in the project files for the complete breakdown,
-including how to reset demo state and how to safely wire a real API key
-back in without hardcoding secrets client-side.</pre>
-      </div>
-    </div>
-
-    <!-- ===== TAB: CV / PM PROFILE ===== -->
-    <div id="view-cv" class="page-view">
-      <div class="card">
-        <div class="cv-header">
-          <h1 class="cv-title">Alessio Are</h1>
-          <div class="cv-subtitle">PRINCE2®, CAPM®, SSYB, ISO 56002 Certified Product &amp; Project Expert</div>
-          <div class="cv-meta">📍 The Randstad, Netherlands · Cross-functional API technical delivery</div>
-          <div class="tag-container">
-            <span class="tag">Product Operations</span>
-            <span class="tag">API Strategy &amp; Integrations</span>
-            <span class="tag">B2B Supplier Tooling</span>
-            <span class="tag">Agile Frameworks</span>
-            <span class="tag">Cross-functional Leadership</span>
-          </div>
-        </div>
-
-        <div style="margin-bottom:32px;">
-          <span class="section-headline">Professional focus</span>
-          <p class="text-sm" style="line-height:1.65; margin-top:4px;">
-            Connecting complex external supplier systems with internal, scalable product features. Over six years at Tiqets managing technical onboarding pipelines, building Jira delivery frameworks, and aligning technical roadmaps across Product, Sales, and Global Operations.
-          </p>
-        </div>
-
-        <span class="section-headline">Track record</span>
-        <div class="timeline-container">
-          <div class="timeline-item highlight">
-            <div class="role-title">Project Manager</div>
-            <div class="role-company">Tiqets · <span class="role-current">Current</span></div>
-            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">June 2025 – Present</div>
-            <ul class="role-desc">
-              <li>Leading end-to-end integration workflows connecting enterprise venues to Tiqets' core infrastructure.</li>
+          <div class="tl-details">
+            <ul>
+              <li>Leading end-to-end integration workflows connecting enterprise venues to core infrastructure.</li>
               <li>Driving platform initiatives to improve connectivity metrics, API stability, and real-time validation speed.</li>
             </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">Platform initiatives</span>
+              <span class="tl-tag">Enterprise venues</span>
+              <span class="tl-tag">Real-time validation</span>
+            </div>
           </div>
-          <div class="timeline-item highlight">
-            <div class="role-title">Senior API Implementation Manager</div>
-            <div class="role-company">Tiqets</div>
-            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">January 2025 – May 2025</div>
-            <ul class="role-desc">
-              <li>Architected technical connections for premium worldwide suppliers, matching client requirements to API specifications.</li>
+        </div>
+      </div>
+
+      <div class="tl-item" data-role="senior">
+        <div class="tl-year">2025<span class="tl-year-end">Jan – May</span></div>
+        <div class="tl-main">
+          <div class="tl-header">
+            <div>
+              <div class="tl-role">Senior API Implementation Manager</div>
+              <div class="tl-company">Tiqets</div>
+            </div>
+            <div class="tl-toggle" aria-hidden="true">+</div>
+          </div>
+          <div class="tl-details">
+            <ul>
+              <li>Architected technical connections for premium worldwide suppliers, matching client requirements to API specs.</li>
               <li>Coordinated cross-functional alignment between Product, Engineering, Sales, and local operations teams.</li>
               <li>Authored a company-wide technical documentation framework mapping existing API architectures.</li>
               <li>Designed standard Jira workspace configurations — custom ticket types, automation rules, scoping checklists — letting junior execution run autonomously.</li>
             </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">API architecture</span>
+              <span class="tl-tag">Cross-functional</span>
+              <span class="tl-tag">Jira frameworks</span>
+              <span class="tl-tag">Documentation</span>
+            </div>
           </div>
-          <div class="timeline-item highlight">
-            <div class="role-title">API Implementation Manager</div>
-            <div class="role-company">Tiqets</div>
-            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">August 2023 – December 2024</div>
-            <ul class="role-desc">
-              <li>Managed continuous endpoint integrations for key distribution software including Bókun, ExperienceBank, and TourCMS.</li>
-              <li>Built validation routines checking response accuracy for real-time inventory, dynamic pricing updates, and secure barcode token issuance.</li>
-              <li>Championed initiatives to smooth the partner onboarding lifecycle, scaling cross-departmental success metrics.</li>
+        </div>
+      </div>
+
+      <div class="tl-item" data-role="api">
+        <div class="tl-year">2023<span class="tl-year-end">→ 2024</span></div>
+        <div class="tl-main">
+          <div class="tl-header">
+            <div>
+              <div class="tl-role">API Implementation Manager</div>
+              <div class="tl-company">Tiqets</div>
+            </div>
+            <div class="tl-toggle" aria-hidden="true">+</div>
+          </div>
+          <div class="tl-details">
+            <ul>
+              <li>Managed continuous endpoint integrations for key distribution software: Bókun, ExperienceBank, TourCMS.</li>
+              <li>Built validation routines for real-time inventory, dynamic pricing updates, and secure barcode token issuance.</li>
+              <li>Championed initiatives to smooth the partner onboarding lifecycle, scaling cross-department success metrics.</li>
             </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">Bókun · ExperienceBank · TourCMS</span>
+              <span class="tl-tag">Barcode tokens</span>
+              <span class="tl-tag">Partner onboarding</span>
+            </div>
           </div>
-          <div class="timeline-item highlight">
-            <div class="role-title">Configuration Specialist</div>
-            <div class="role-company">Tiqets</div>
-            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">February 2020 – July 2023</div>
-            <ul class="role-desc">
+        </div>
+      </div>
+
+      <div class="tl-item" data-role="config">
+        <div class="tl-year">2020<span class="tl-year-end">→ 2023</span></div>
+        <div class="tl-main">
+          <div class="tl-header">
+            <div>
+              <div class="tl-role">Configuration Specialist</div>
+              <div class="tl-company">Tiqets</div>
+            </div>
+            <div class="tl-toggle" aria-hidden="true">+</div>
+          </div>
+          <div class="tl-details">
+            <ul>
               <li>Owned and audited marketplace lifecycle metrics for strategic venue profiles across Central &amp; Southern Europe, the Nordics, and Benelux.</li>
               <li>Directed a global optimization squad tasked with boosting product up-time, hitting core KPIs for 20+ consecutive months.</li>
               <li>Led a business-process change program to counter COVID-19 product gaps, protecting active metrics for over a year.</li>
             </ul>
+            <div class="tl-tags">
+              <span class="tl-tag">Marketplace ops</span>
+              <span class="tl-tag">KPI ownership</span>
+              <span class="tl-tag">Process change</span>
+            </div>
           </div>
-          <div class="timeline-item">
-            <div class="role-title">Commercial Manager &amp; API Project Manager</div>
-            <div class="role-company">Globalinternet (now part of Expereo)</div>
-            <div class="text-sm text-muted" style="margin-bottom:10px; font-weight:600;">September 2018 – February 2020</div>
-            <ul class="role-desc">
+        </div>
+      </div>
+
+      <div class="tl-item" data-role="global">
+        <div class="tl-year">2018<span class="tl-year-end">→ 2020</span></div>
+        <div class="tl-main">
+          <div class="tl-header">
+            <div>
+              <div class="tl-role">Commercial Manager &amp; API Project Manager</div>
+              <div class="tl-company">Globalinternet (now Expereo)</div>
+            </div>
+            <div class="tl-toggle" aria-hidden="true">+</div>
+          </div>
+          <div class="tl-details">
+            <ul>
               <li>Procured and deployed high-capacity B2B internet access infrastructure across Western Europe for Fortune 500 accounts (Nestlé, Adidas, Unilever, AT&amp;T).</li>
               <li>Coordinated a developer squad executing 20+ live API carrier integrations across 19 countries, reducing overhead and optimizing real-time pricing queries.</li>
             </ul>
-          </div>
-        </div>
-
-        <div style="margin-top:30px;">
-          <span class="section-headline">Education &amp; credentials</span>
-          <div class="text-sm" style="line-height:1.65; font-weight:500;">
-            • Double Master's Degree in Project Management — Rome Business School &amp; VIU<br>
-            • Postgraduate Degree, Languages for International Communication — Università Mercatorum<br>
-            • Double Bachelor's Degree, Applied Foreign Languages to Business &amp; Tourism — Università della Valle d'Aosta &amp; Université Savoie Mont Blanc
+            <div class="tl-tags">
+              <span class="tl-tag">Fortune 500 accounts</span>
+              <span class="tl-tag">19-country rollout</span>
+              <span class="tl-tag">Carrier APIs</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-  </div>
-
-  <!-- ============ AI ASSISTANT WIDGET ============ -->
-  <button id="assistant-toggle" class="assistant-fab" onclick="App.Assistant.toggle()" aria-label="Open product assistant">🤖</button>
-  <div id="assistant-panel" class="assistant-panel hidden">
-    <div class="assistant-header">
-      <span class="assistant-title">🤖 Product Assistant</span>
-      <span class="demo-note" id="assistant-mode-tag">Local fallback</span>
-      <button class="editor-close" type="button" onclick="App.Assistant.toggle()">✕</button>
     </div>
-    <div id="assistant-messages" class="assistant-messages"></div>
-    <div id="assistant-suggestions" class="assistant-suggestions"></div>
-    <form id="assistant-form" class="assistant-form">
-      <input id="assistant-input" placeholder="Ask about a product's status…" autocomplete="off">
-      <button type="submit" class="btn btn-primary btn-sm">Ask</button>
-    </form>
-  </div>
+  </section>
+
+  <!-- ============ VISUAL JOURNEY / TAPPE ============ -->
+  <section id="journey">
+    <span class="section-label">02 · The journey in short</span>
+    <h2 class="section-title">Six stages, one direction</h2>
+    <p class="section-lead">From foreign-language studies to leading API integration projects for cultural venues worldwide. Hover any stage.</p>
+
+    <div class="journey-wrap">
+      <div class="journey-track" id="journey-track">
+
+        <div class="stage done" data-stage="0">
+          <div class="stage-dot">🎓</div>
+          <div class="stage-year">2013–17</div>
+          <div class="stage-label">Foundations</div>
+          <div class="stage-desc">Applied languages & tourism</div>
+        </div>
+
+        <div class="stage done" data-stage="1">
+          <div class="stage-dot">🌐</div>
+          <div class="stage-year">2018–20</div>
+          <div class="stage-label">B2B APIs</div>
+          <div class="stage-desc">Fortune 500 rollout</div>
+        </div>
+
+        <div class="stage done" data-stage="2">
+          <div class="stage-dot">⚙️</div>
+          <div class="stage-year">2020–23</div>
+          <div class="stage-label">Ops & KPIs</div>
+          <div class="stage-desc">Marketplace lifecycle</div>
+        </div>
+
+        <div class="stage done" data-stage="3">
+          <div class="stage-dot">🔌</div>
+          <div class="stage-year">2023–24</div>
+          <div class="stage-label">API delivery</div>
+          <div class="stage-desc">Bókun · TourCMS</div>
+        </div>
+
+        <div class="stage done" data-stage="4">
+          <div class="stage-dot">🧭</div>
+          <div class="stage-year">2025</div>
+          <div class="stage-label">Senior lead</div>
+          <div class="stage-desc">Frameworks & docs</div>
+        </div>
+
+        <div class="stage active" data-stage="5">
+          <div class="stage-dot">🚀</div>
+          <div class="stage-year">Now</div>
+          <div class="stage-label">Project Manager</div>
+          <div class="stage-desc">Platform initiatives</div>
+        </div>
+
+      </div>
+
+      <div class="journey-detail" id="journey-detail">
+        <h4 id="jd-tag">Where I am now</h4>
+        <div class="jd-title" id="jd-title">Project Manager at Tiqets</div>
+        <div class="jd-desc" id="jd-desc">Leading end-to-end integration workflows for enterprise venues, driving connectivity, API stability, and real-time validation speed across the platform.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ EDUCATION ============ -->
+  <section id="education">
+    <span class="section-label">03 · Education</span>
+    <h2 class="section-title">Where it started</h2>
+
+    <div class="edu-grid">
+      <div class="edu-item">
+        <div class="edu-icon">M²</div>
+        <div>
+          <div class="edu-degree">Double Master's Degree — Project Management</div>
+          <div class="edu-inst">Rome Business School · Venice International University (VIU)</div>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-icon">PG</div>
+        <div>
+          <div class="edu-degree">Postgraduate — Languages for International Communication</div>
+          <div class="edu-inst">Università Mercatorum</div>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-icon">B²</div>
+        <div>
+          <div class="edu-degree">Double Bachelor's — Applied Foreign Languages, Business &amp; Tourism</div>
+          <div class="edu-inst">Università della Valle d'Aosta · Université Savoie Mont Blanc</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Get in touch on <a href="https://www.linkedin.com/in/alessioare/" target="_blank" rel="noopener">LinkedIn</a> · The Randstad, Netherlands · Remote-friendly
+  </footer>
+
 </div>
 
-<!-- ============ PRODUCT EDITOR MODAL ============ -->
-<div id="editor-modal" class="hidden">
-  <div class="editor-panel">
-    <div class="editor-header">
-      <h2 id="editor-modal-title">Edit product</h2>
-      <button class="editor-close" onclick="App.Editor.close()">✕</button>
-    </div>
+<script>
+  // ============ TIMELINE EXPAND/COLLAPSE ============
+  document.querySelectorAll('.tl-item').forEach((item, idx) => {
+    // Open the first (current role) by default
+    if (idx === 0) item.classList.add('open');
+    item.addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+  });
 
-    <div id="editor-ingestion-block" class="editor-section hidden" style="border-top:none;">
-      <h3>🔗 Smart ingestion (optional)</h3>
-      <div style="display:flex; gap:8px;">
-        <input id="ingestion-url" placeholder="Paste a venue URL to auto-fill the fields below…" style="flex:1;">
-        <button id="run-ingestion-btn" class="btn btn-secondary" type="button">Generate draft</button>
-      </div>
-      <p id="ingestion-note" class="field-hint"></p>
-    </div>
+  // ============ JOURNEY STAGES ============
+  const stageContent = {
+    0: {
+      tag: 'Foundations',
+      title: 'Applied Foreign Languages · Business & Tourism',
+      desc: "Double bachelor's between Università della Valle d'Aosta and Université Savoie Mont Blanc. Four working languages, one industry frame: how travel businesses actually run."
+    },
+    1: {
+      tag: 'B2B APIs · First delivery role',
+      title: 'Commercial & API Project Manager — Globalinternet',
+      desc: 'Deployed enterprise internet infrastructure across 19 countries for Nestlé, Adidas, Unilever, AT&T. Coordinated 20+ live carrier API integrations — first real taste of managing engineering delivery.'
+    },
+    2: {
+      tag: 'Ops & KPI ownership',
+      title: 'Configuration Specialist — Tiqets',
+      desc: 'Owned marketplace lifecycle metrics for strategic venues across Central & Southern Europe, the Nordics, and Benelux. Directed a global squad hitting core KPIs for 20+ consecutive months, including a full COVID pivot.'
+    },
+    3: {
+      tag: 'API delivery',
+      title: 'API Implementation Manager — Tiqets',
+      desc: 'Ran continuous endpoint integrations for Bókun, ExperienceBank, TourCMS. Built validation routines for real-time inventory, dynamic pricing, and secure barcode token issuance.'
+    },
+    4: {
+      tag: 'Senior lead',
+      title: 'Senior API Implementation Manager — Tiqets',
+      desc: 'Architected technical connections for premium suppliers, authored the company-wide API documentation framework, and designed standard Jira workspace configs so junior execution could run autonomously.'
+    },
+    5: {
+      tag: 'Where I am now',
+      title: 'Project Manager at Tiqets',
+      desc: 'Leading end-to-end integration workflows for enterprise venues, driving connectivity, API stability, and real-time validation speed across the platform.'
+    }
+  };
 
-    <div class="editor-body">
-      <div class="editor-form-col">
-        <div class="field-group">
-          <label class="field-label">Product title</label>
-          <input id="f-name">
-        </div>
-        <div class="field-group">
-          <label class="field-label">Tagline</label>
-          <input id="f-tagline">
-        </div>
-        <div class="field-group field-row-2">
-          <div>
-            <label class="field-label">Price</label>
-            <input id="f-price" type="number" min="0">
-          </div>
-          <div>
-            <label class="field-label">Currency</label>
-            <input id="f-currency" maxlength="1">
-          </div>
-        </div>
-        <div class="field-group">
-          <label class="field-label">What's included (one per line)</label>
-          <textarea id="f-included" rows="3"></textarea>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Description</label>
-          <textarea id="f-description" rows="3"></textarea>
-        </div>
-        <div class="field-group">
-          <label class="field-label">Cancellation policy</label>
-          <textarea id="f-cancellation" rows="2"></textarea>
-        </div>
-        <button id="save-btn" class="btn btn-primary btn-block" type="button">Save product</button>
-      </div>
-      <div class="editor-preview-col">
-        <div id="editor-preview"></div>
-      </div>
-    </div>
+  const stages = document.querySelectorAll('.stage');
+  const jdTag = document.getElementById('jd-tag');
+  const jdTitle = document.getElementById('jd-title');
+  const jdDesc = document.getElementById('jd-desc');
 
-    <div class="editor-section">
-      <h3>💡 Pricing assistant</h3>
-      <div class="suggestion-box">
-        <span id="suggestion-text" class="text-sm">—</span>
-        <div style="display:flex; align-items:center; gap:10px; flex-shrink:0;">
-          <span class="suggestion-price" id="suggestion-price">—</span>
-          <button id="apply-suggestion-btn" class="btn btn-outline btn-sm" type="button">Apply</button>
-        </div>
-      </div>
-    </div>
+  function setActive(idx) {
+    stages.forEach(s => {
+      const i = parseInt(s.dataset.stage, 10);
+      s.classList.remove('active');
+      if (i < idx) s.classList.add('done');
+      else s.classList.remove('done');
+      if (i === idx) s.classList.add('active');
+      if (i <= idx) s.classList.add('done');
+    });
+    // last stage stays "active"
+    stages[idx].classList.add('active');
+    const c = stageContent[idx];
+    if (!c) return;
+    jdTag.textContent = c.tag;
+    jdTitle.textContent = c.title;
+    jdDesc.textContent = c.desc;
+  }
 
-    <div class="editor-section">
-      <h3>📅 Price calendar <span class="demo-note">Next 14 days · demo capacity &amp; sales</span></h3>
-      <div id="price-calendar" class="price-calendar"></div>
-      <div class="cal-legend">
-        <span><span class="cal-swatch cal-low"></span> Low demand — consider a saving</span>
-        <span><span class="cal-swatch cal-medium"></span> Medium — keep base price</span>
-        <span><span class="cal-swatch cal-high"></span> High demand — raise price</span>
-      </div>
-    </div>
+  stages.forEach(s => {
+    s.addEventListener('mouseenter', () => setActive(parseInt(s.dataset.stage, 10)));
+    s.addEventListener('click', () => setActive(parseInt(s.dataset.stage, 10)));
+  });
+</script>
 
-    <div id="push-panel" class="editor-section hidden">
-      <h3>🔄 Push to channels</h3>
-      <div id="push-channel-list" class="push-channel-list"></div>
-      <button id="push-btn" class="btn btn-primary btn-sm" type="button" style="margin:12px 0;">Push selected channels</button>
-      <div class="sync-log" id="push-log">Save first, then push.</div>
-    </div>
-  </div>
-</div>
-
-<!-- ============ MARKETING CHECKOUT MODAL (demo) ============ -->
-<div id="checkout-modal" class="hidden">
-  <div class="editor-panel" style="max-width:420px;">
-    <div class="editor-header">
-      <h2>Checkout <span class="demo-note">Demo — no real payment processed</span></h2>
-      <button class="editor-close" type="button" onclick="App.Marketing.closeCheckout()">✕</button>
-    </div>
-    <div style="padding:22px 24px;">
-      <div id="checkout-summary" style="margin-bottom:16px;"></div>
-
-      <form id="checkout-form" onsubmit="App.Marketing.confirmPurchase(event)">
-        <div class="field-group">
-          <label class="field-label">Card number</label>
-          <input placeholder="4242 4242 4242 4242" required>
-        </div>
-        <div class="field-row-2">
-          <div class="field-group">
-            <label class="field-label">Expiry</label>
-            <input placeholder="MM/YY" required>
-          </div>
-          <div class="field-group">
-            <label class="field-label">CVC</label>
-            <input placeholder="123" required>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Confirm purchase</button>
-      </form>
-
-      <div id="checkout-success" class="hidden" style="text-align:center; padding:20px 0;">
-        <div style="font-size:36px; margin-bottom:8px;">✅</div>
-        <p style="font-weight:700; margin-bottom:6px;">Package activated</p>
-        <p class="text-sm text-muted" style="margin-bottom:16px;">Logged to Channel Sync activity. No real charge — this is a demo checkout.</p>
-        <button class="btn btn-secondary btn-block" type="button" onclick="App.Marketing.closeCheckout()">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script src="js/db.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/login.js"></script>
-<script src="js/weather.js"></script>
-<script src="js/events.js"></script>
-<script src="js/tz.js"></script>
-<script src="js/hours.js"></script>
-<script src="js/worldcup.js"></script>
-<script src="js/pricing.js"></script>
-<script src="js/calendar.js"></script>
-<script src="js/ota.js"></script>
-<script src="js/marketing.js"></script>
-<script src="js/apihealth.js"></script>
-<script src="js/start.js"></script>
-<script src="js/editor.js"></script>
-<script src="js/readme.js"></script>
-<script src="js/assistant.js"></script>
-<script src="js/dashboard.js"></script>
-<script src="js/app.js"></script>
 </body>
 </html>
