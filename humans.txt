@@ -1,7 +1,7 @@
 /* TEAM */
 Name:      Alessio Are
 Role:      Project & Product Manager
-Focus:     API delivery · B2B supplier tooling · Cross-functional delivery
+Focus:     API delivery · B2B · Cross-functional delivery
 Currently: Tiqets (2020 → present)
 Location:  The Randstad, Netherlands · Remote-friendly
 Site:      https://alessioproductmanager.com/
