@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- =================== PRIMARY SEO =================== -->
+ 
 <title>Alessio Are — Project & Product Manager | API Delivery · B2B Supplier Tooling · Remote (Netherlands)</title>
 <meta name="description" content="Alessio Are — Project & Product Manager based in The Randstad, Netherlands. PRINCE2®, CAPM®, Six Sigma Yellow Belt and ISO 56002 certified. 6+ years leading API integrations, B2B supplier tooling and cross-functional delivery at Tiqets. Available for remote roles worldwide.">
 <meta name="keywords" content="Alessio Are, Project Manager, Product Manager, API Project Manager, API Implementation Manager, PRINCE2, CAPM, Six Sigma Yellow Belt, ISO 56002, Tiqets, Amsterdam, Netherlands, The Randstad, remote, cross-functional, B2B supplier tooling, API integrations, Jira, Agile, product operations, hire, available for hire, project management, product management">
@@ -78,10 +79,21 @@
     "name": "The Randstad, Netherlands"
   },
   "hasCredential": [
-    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "PRINCE2®" },
-    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "CAPM® — Certified Associate in Project Management" },
-    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Six Sigma Yellow Belt" },
-    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "ISO 56002 — Innovation Management" }
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Design Thinking — Incompany Trainer", "recognizedBy": { "@type": "Organization", "name": "Incompany Trainer" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "PRINCE2® 2017 Practitioner", "recognizedBy": { "@type": "Organization", "name": "AXELOS Global Best Practice" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "CAPM® — Certified Associate in Project Management", "recognizedBy": { "@type": "Organization", "name": "Project Management Institute" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Six Sigma Yellow Belt", "recognizedBy": { "@type": "Organization", "name": "Aveta Business Institute" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "ISO 56002 — Innovation Management Systems", "recognizedBy": { "@type": "Organization", "name": "Eicorn" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Business English C1", "recognizedBy": { "@type": "Organization", "name": "University of Amsterdam" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Building & Leading with Emotional Intelligence", "recognizedBy": { "@type": "Organization", "name": "Beyond EI" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Growth Marketing", "recognizedBy": { "@type": "Organization", "name": "Growth Tribe" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "The Fundamentals of Digital Marketing", "recognizedBy": { "@type": "Organization", "name": "Google Digital Garage" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Market Research, Consumer Insights and Competitor Analysis", "recognizedBy": { "@type": "Organization", "name": "University of Cape Town" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Tourism and Travel Management", "recognizedBy": { "@type": "Organization", "name": "The University of Queensland" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Travel Writing", "recognizedBy": { "@type": "Organization", "name": "Scuola Holden" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Nederlands B1", "recognizedBy": { "@type": "Organization", "name": "The Language Academy" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "International Business Leadership Bootcamp", "recognizedBy": { "@type": "Organization", "name": "Rome Business School" } },
+    { "@type": "EducationalOccupationalCredential", "credentialCategory": "certification", "name": "Soft Skills Program", "recognizedBy": { "@type": "Organization", "name": "Rome Business School" } }
   ],
   "alumniOf": [
     { "@type": "CollegeOrUniversity", "name": "Rome Business School" },
@@ -97,10 +109,31 @@
     "B2B Supplier Tooling",
     "Cross-functional Leadership",
     "Agile Frameworks",
+    "Scrum",
+    "Waterfall",
+    "PMBOK",
+    "Risk Management",
+    "Stakeholder Management",
+    "Work Breakdown Structure",
+    "Critical Path Method",
+    "Earned Value Management",
     "Jira Workspace Design",
     "Product Operations",
     "Technical Documentation",
     "Marketplace Operations",
+    "Business Strategy",
+    "Managerial Economics",
+    "Financial Statement Analysis",
+    "Management Accounting",
+    "Digital Marketing",
+    "Growth Marketing",
+    "Market Research",
+    "Consumer Insights",
+    "Human Resource Management",
+    "Emotional Intelligence",
+    "Data Analytics for Managers",
+    "Design Thinking",
+    "Innovation Management",
     "PRINCE2",
     "Six Sigma",
     "ISO 56002"
@@ -459,6 +492,176 @@
   footer a{color:var(--ink-2);font-weight:500;border-bottom:1px solid var(--line);padding-bottom:1px}
   footer a:hover{border-bottom-color:var(--accent);color:var(--accent)}
 
+  /* ============ SKILLS ============ */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .skill-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    padding:20px 22px;
+    transition:border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .skill-card:hover{
+    border-color:var(--accent);
+    transform:translateY(-2px);
+    box-shadow:var(--shadow-md);
+  }
+  .skill-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+  .skill-icon{
+    width:36px;height:36px;border-radius:9px;
+    background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .skill-icon svg{width:18px;height:18px;stroke-width:1.7}
+  .skill-title{
+    font-family:'Fraunces',serif;font-size:16.5px;font-weight:500;
+    letter-spacing:-.01em;color:var(--ink);line-height:1.25;
+  }
+  .skill-lead{
+    font-size:13px;color:var(--muted);
+    line-height:1.5;margin-bottom:12px;
+  }
+  .skill-list{display:flex;flex-wrap:wrap;gap:5px}
+  .skill-chip{
+    font-size:11.5px;font-weight:500;
+    padding:4px 10px;border-radius:999px;
+    background:var(--bg);color:var(--ink-2);
+    border:1px solid var(--line);
+    letter-spacing:-.002em;
+    transition:all .18s;
+  }
+  .skill-card:hover .skill-chip{background:var(--surface)}
+  .skill-chip.hero{
+    background:var(--accent-soft);
+    color:var(--accent);
+    border-color:transparent;
+    font-weight:600;
+  }
+
+  /* ============ CERTIFICATIONS ============ */
+  .cert-featured{
+    background:linear-gradient(135deg,var(--accent-soft) 0%, #FFFBF7 60%, var(--surface) 100%);
+    border:1px solid var(--accent);
+    border-radius:var(--radius);
+    padding:26px 28px;
+    margin-bottom:28px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(184,74,37,.08);
+  }
+  .cert-featured::after{
+    content:'';
+    position:absolute;
+    top:-30px;right:-30px;
+    width:140px;height:140px;
+    background:radial-gradient(circle,rgba(184,74,37,.08) 0%,transparent 70%);
+    pointer-events:none;
+  }
+  .cert-featured-flag{
+    display:inline-block;
+    font-size:10.5px;font-weight:700;letter-spacing:.14em;
+    color:var(--accent);text-transform:uppercase;
+    padding:3px 10px;border-radius:999px;
+    background:var(--surface);
+    border:1px solid rgba(184,74,37,.25);
+    margin-bottom:14px;
+  }
+  .cert-featured-row{
+    display:grid;grid-template-columns:auto 1fr;
+    gap:20px;align-items:center;
+    position:relative;z-index:1;
+  }
+  .cert-featured-icon{
+    width:64px;height:64px;border-radius:16px;
+    background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    box-shadow:0 4px 12px rgba(184,74,37,.25);
+  }
+  .cert-featured-icon svg{width:32px;height:32px;stroke-width:1.6}
+  .cert-featured-title{
+    font-family:'Fraunces',serif;
+    font-size:22px;font-weight:500;
+    letter-spacing:-.015em;
+    color:var(--ink);
+    margin-bottom:4px;
+    line-height:1.2;
+  }
+  .cert-featured-meta{
+    font-size:13.5px;color:var(--ink-2);
+    margin-bottom:12px;line-height:1.5;
+  }
+  .cert-featured-meta strong{color:var(--accent);font-weight:600}
+  .cert-featured-link{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:13px;font-weight:600;
+    color:var(--accent);
+    padding:6px 12px;border-radius:999px;
+    background:var(--surface);
+    border:1px solid rgba(184,74,37,.2);
+    transition:all .2s;
+  }
+  .cert-featured-link:hover{
+    background:var(--accent);color:#fff;
+    border-color:var(--accent);
+    transform:translateY(-1px);
+  }
+  .cert-featured-link svg{width:12px;height:12px}
+
+  .cert-group-title{
+    font-size:11.5px;font-weight:700;letter-spacing:.14em;
+    color:var(--muted);text-transform:uppercase;
+    margin:0 0 14px;
+  }
+  .cert-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .cert-row{
+    display:grid;grid-template-columns:auto 1fr auto;
+    gap:12px;align-items:center;
+    padding:12px 14px;
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:var(--radius-sm);
+    transition:all .18s;
+  }
+  .cert-row:hover{
+    border-color:var(--accent);
+    background:rgba(184,74,37,.02);
+    transform:translateY(-1px);
+  }
+  .cert-row-icon{
+    width:34px;height:34px;border-radius:8px;
+    background:var(--accent-soft);color:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    font-family:'Fraunces',serif;font-size:11.5px;font-weight:600;
+    letter-spacing:-.02em;
+  }
+  .cert-row-body{min-width:0}
+  .cert-row-title{
+    font-size:13px;font-weight:600;color:var(--ink);
+    letter-spacing:-.005em;line-height:1.3;margin-bottom:2px;
+  }
+  .cert-row-issuer{
+    font-size:11.5px;color:var(--muted);
+    line-height:1.35;
+  }
+  .cert-row-meta{
+    display:flex;align-items:center;gap:8px;
+    font-size:11px;font-weight:600;
+    color:var(--muted);letter-spacing:.03em;
+    white-space:nowrap;
+  }
+  .cert-row-link{
+    color:var(--muted);
+    transition:color .18s, transform .18s;
+    display:flex;align-items:center;
+  }
+  .cert-row-link:hover{color:var(--accent);transform:translate(1px,-1px)}
+  .cert-row-link svg{width:13px;height:13px}
+
+  /* extra cert badge colors for top bar */
+  .cert-badge.alt4{background:#8B6F47}
+
   /* ============ RESPONSIVE ============ */
   @media (max-width:720px){
     .hero{padding:48px 0 40px}
@@ -479,6 +682,13 @@
     .stage-dot{width:38px;height:38px;font-size:13px}
     .stage-label{font-size:11.5px}
     .stage-desc{display:none}
+    .skills-grid{grid-template-columns:1fr}
+    .cert-list{grid-template-columns:1fr}
+    .cert-featured{padding:22px 20px}
+    .cert-featured-row{grid-template-columns:1fr;gap:14px;text-align:left}
+    .cert-featured-icon{width:52px;height:52px;border-radius:13px}
+    .cert-featured-icon svg{width:26px;height:26px}
+    .cert-featured-title{font-size:19px}
   }
 </style>
 </head>
@@ -521,6 +731,7 @@
   <!-- ============ CERTS BAR ============ -->
   <div class="certs">
     <div class="certs-inner">
+      <span class="cert"><span class="cert-badge alt4">DT</span>Design Thinking</span>
       <span class="cert"><span class="cert-badge">P2</span>PRINCE2®</span>
       <span class="cert"><span class="cert-badge alt">C</span>CAPM®</span>
       <span class="cert"><span class="cert-badge alt2">SS</span>Six Sigma Yellow Belt</span>
@@ -737,9 +948,354 @@
     </div>
   </section>
 
+  <!-- ============ SKILLS & TOOLKIT ============ -->
+  <section id="skills">
+    <span class="section-label">03 · Skills &amp; toolkit</span>
+    <h2 class="section-title">What I actually learned to do</h2>
+    <p class="section-lead">A Business School master isn't just project management — it's marketing, finance, HR, operations, data and innovation, all wired together. Here's the working toolkit I built between Rome Business School, six years at Tiqets, and independent study.</p>
+
+    <div class="skills-grid">
+
+      <!-- 1. Project & operations management -->
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          </div>
+          <div class="skill-title">Project &amp; operations management</div>
+        </div>
+        <div class="skill-lead">The core discipline: scoping, planning, executing, controlling, and closing complex delivery in international, cross-functional settings.</div>
+        <div class="skill-list">
+          <span class="skill-chip hero">PMBOK domains</span>
+          <span class="skill-chip hero">PRINCE2®</span>
+          <span class="skill-chip hero">Agile / Scrum</span>
+          <span class="skill-chip">WBS</span>
+          <span class="skill-chip">CPM</span>
+          <span class="skill-chip">EVM</span>
+          <span class="skill-chip">Risk management</span>
+          <span class="skill-chip">Scenario planning</span>
+          <span class="skill-chip">Stakeholder management</span>
+          <span class="skill-chip">Change management</span>
+          <span class="skill-chip">Jira</span>
+          <span class="skill-chip">ProjectLibre</span>
+          <span class="skill-chip">KanBoard</span>
+          <span class="skill-chip">Trello</span>
+        </div>
+      </div>
+
+      <!-- 2. Business strategy & finance -->
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 6-7"/><circle cx="7" cy="14" r="1.2"/><circle cx="11" cy="10" r="1.2"/><circle cx="14" cy="13" r="1.2"/><circle cx="20" cy="6" r="1.2"/></svg>
+          </div>
+          <div class="skill-title">Business strategy &amp; finance</div>
+        </div>
+        <div class="skill-lead">Reading the long-term direction of a business — and the numbers underneath it. Turning strategy into decisions someone can act on this quarter.</div>
+        <div class="skill-list">
+          <span class="skill-chip hero">Business strategy</span>
+          <span class="skill-chip hero">Managerial economics</span>
+          <span class="skill-chip">Financial statement analysis</span>
+          <span class="skill-chip">Management accounting</span>
+          <span class="skill-chip">CVP analysis</span>
+          <span class="skill-chip">Budgeting</span>
+          <span class="skill-chip">Investment appraisal</span>
+          <span class="skill-chip">Cost management</span>
+          <span class="skill-chip">Business planning</span>
+          <span class="skill-chip">KPI ownership</span>
+        </div>
+      </div>
+
+      <!-- 3. Marketing & growth -->
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11v3l14 5V6L3 11z"/><path d="M3 12h4v6H4a1 1 0 01-1-1v-5z"/><path d="M17 9a4 4 0 010 6"/></svg>
+          </div>
+          <div class="skill-title">Marketing &amp; growth</div>
+        </div>
+        <div class="skill-lead">Applying marketing principles to real decisions — from consumer research to digital acquisition and growth experiments.</div>
+        <div class="skill-list">
+          <span class="skill-chip hero">Digital marketing</span>
+          <span class="skill-chip hero">Growth marketing</span>
+          <span class="skill-chip">Traditional marketing</span>
+          <span class="skill-chip">Market research</span>
+          <span class="skill-chip">Consumer insights</span>
+          <span class="skill-chip">Competitor analysis</span>
+          <span class="skill-chip">SEO fundamentals</span>
+          <span class="skill-chip">Funnel design</span>
+          <span class="skill-chip">A/B testing mindset</span>
+        </div>
+      </div>
+
+      <!-- 4. People, HR & leadership -->
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="10" r="2.5"/><path d="M15 20c0-2.5 1.8-4.5 4-4.5"/></svg>
+          </div>
+          <div class="skill-title">People, HR &amp; leadership</div>
+        </div>
+        <div class="skill-lead">The strategic side of people work — how to acquire, develop, motivate and retain a workforce, and how to lead them with emotional intelligence.</div>
+        <div class="skill-list">
+          <span class="skill-chip hero">Emotional intelligence</span>
+          <span class="skill-chip hero">Incompany training</span>
+          <span class="skill-chip">HR strategy</span>
+          <span class="skill-chip">Workforce acquisition</span>
+          <span class="skill-chip">Motivation &amp; retention</span>
+          <span class="skill-chip">Ethical leadership</span>
+          <span class="skill-chip">Cross-functional coordination</span>
+          <span class="skill-chip">Soft skills</span>
+          <span class="skill-chip">Facilitation</span>
+        </div>
+      </div>
+
+      <!-- 5. Data & analytics -->
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="12" width="4" height="9" rx="1"/><rect x="10" y="7" width="4" height="14" rx="1"/><rect x="17" y="3" width="4" height="18" rx="1"/></svg>
+          </div>
+          <div class="skill-title">Data &amp; analytics for managers</div>
+        </div>
+        <div class="skill-lead">Reading large data sets to make decisions — plus the process-improvement lens that catches waste and variance before it costs the business.</div>
+        <div class="skill-list">
+          <span class="skill-chip hero">Data analytics for managers</span>
+          <span class="skill-chip hero">Six Sigma methodology</span>
+          <span class="skill-chip">Diagnostic problem-solving</span>
+          <span class="skill-chip">Reporting frameworks</span>
+          <span class="skill-chip">Excel modelling</span>
+          <span class="skill-chip">Business decision-making</span>
+          <span class="skill-chip">Process optimization</span>
+          <span class="skill-chip">Metric ownership</span>
+        </div>
+      </div>
+
+      <!-- 6. Innovation & design thinking -->
+      <div class="skill-card">
+        <div class="skill-head">
+          <div class="skill-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 00-4 10.5c.9.8 1.5 1.5 1.5 2.5v2h5v-2c0-1 .6-1.7 1.5-2.5A6 6 0 0012 3z"/></svg>
+          </div>
+          <div class="skill-title">Innovation &amp; design thinking</div>
+        </div>
+        <div class="skill-lead">Structured methods to move from a fuzzy problem to a tested solution — with users and stakeholders in the loop from day one.</div>
+        <div class="skill-list">
+          <span class="skill-chip hero">Design Thinking</span>
+          <span class="skill-chip hero">ISO 56002</span>
+          <span class="skill-chip">Human-centered design</span>
+          <span class="skill-chip">Brainstorming</span>
+          <span class="skill-chip">Delphi method</span>
+          <span class="skill-chip">Affinity diagrams</span>
+          <span class="skill-chip">Scope statements</span>
+          <span class="skill-chip">Rapid prototyping</span>
+          <span class="skill-chip">Requirements gathering</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ CERTIFICATIONS ============ -->
+  <section id="certifications">
+    <span class="section-label">04 · Certifications</span>
+    <h2 class="section-title">Credentials &amp; continuous learning</h2>
+    <p class="section-lead">Since 2021, I've made a habit of stacking one certification per quarter — pairing formal PM/business credentials with focused deep-dives in marketing, languages, innovation and travel writing.</p>
+
+    <!-- Featured cert: Design Thinking -->
+    <div class="cert-featured">
+      <span class="cert-featured-flag">✦ Featured credential</span>
+      <div class="cert-featured-row">
+        <div class="cert-featured-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 00-4 10.5c.9.8 1.5 1.5 1.5 2.5v2h5v-2c0-1 .6-1.7 1.5-2.5A6 6 0 0012 3z"/><path d="M12 8v3"/><path d="M10 10h4"/></svg>
+        </div>
+        <div>
+          <div class="cert-featured-title">Design Thinking</div>
+          <div class="cert-featured-meta">Issued by <strong>Incompany Trainer</strong> · June 2024 · A framework for turning ambiguous business problems into user-tested, prototyped solutions — now part of how I run discovery on API integration projects.</div>
+          <a class="cert-featured-link" href="https://www.dropbox.com/scl/fi/0a8llhvx8o85z2bk2kat0/Certificate-Design-thinking-Alessio-Are.pdf?rlkey=oa5pomsp16zs21h3t8qvixrjz&st=4texkux7&dl=0" target="_blank" rel="noopener">
+            View credential
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grouped: other credentials -->
+    <h4 class="cert-group-title">Continuous learning · 14 more credentials</h4>
+    <div class="cert-list">
+
+      <a class="cert-row" href="https://www.dropbox.com/scl/fi/74ga66u8pbzj2xqowa89s/Certificate-Alessio-Are-_0611023.docx.pdf?rlkey=8p4ncht90q01lcaw8ihg0e3d3&dl=0" target="_blank" rel="noopener">
+        <div class="cert-row-icon">EN</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Business English (C1)</div>
+          <div class="cert-row-issuer">University of Amsterdam</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Nov '23</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://www.credly.com/users/alessio-are/badges#credly" target="_blank" rel="noopener">
+        <div class="cert-row-icon">P2</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">PRINCE2® 2017 Practitioner</div>
+          <div class="cert-row-issuer">AXELOS Global Best Practice</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Jun '23</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://www.credential.net/1e0b0c32-a852-4695-8247-1596213c3cd2" target="_blank" rel="noopener">
+        <div class="cert-row-icon">ISO</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">ISO 56002 — Innovation Management</div>
+          <div class="cert-row-issuer">Eicorn</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Feb '23</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://courses.edx.org/certificates/f4805803d8d94e3ea39c3c53d5c7f760" target="_blank" rel="noopener">
+        <div class="cert-row-icon">T&amp;T</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Tourism &amp; Travel Management</div>
+          <div class="cert-row-issuer">The University of Queensland</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Jan '23</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://www.credly.com/users/alessio-are/badges#credly" target="_blank" rel="noopener">
+        <div class="cert-row-icon">EI</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Building &amp; Leading with Emotional Intelligence</div>
+          <div class="cert-row-issuer">Beyond EI</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Nov '22</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://www.dropbox.com/s/uclw83bzkf3ggf7/Language%20Academy%20Alessio.pdf?dl=0" target="_blank" rel="noopener">
+        <div class="cert-row-icon">NL</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Nederlands halfgevorderden 1 (B1)</div>
+          <div class="cert-row-issuer">The Language Academy</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Nov '22</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://www.dropbox.com/s/vljve54dgjpfvx1/Travel%20writing_Are.pdf?dl=0" target="_blank" rel="noopener">
+        <div class="cert-row-icon">TW</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Travel Writing</div>
+          <div class="cert-row-issuer">Scuola Holden</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Sep '22</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://learndigital.withgoogle.com/digitalgarage/validate-certificate-code" target="_blank" rel="noopener">
+        <div class="cert-row-icon">DM</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">The Fundamentals of Digital Marketing</div>
+          <div class="cert-row-issuer">Google Digital Garage · 3UV497RKR</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Jun '22</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://certificates.growthtribe.io/en/verify/85131593789197?ref=email" target="_blank" rel="noopener">
+        <div class="cert-row-icon">GM</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Growth Marketing</div>
+          <div class="cert-row-issuer">Growth Tribe</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>May '22</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://api.badgr.io/public/assertions/hd_tNpPNQQ-jJeEOfYdR8w?identity__email=alessio.are%40gmail.com" target="_blank" rel="noopener">
+        <div class="cert-row-icon">6σ</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Six Sigma Yellow Belt</div>
+          <div class="cert-row-issuer">Aveta Business Institute</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>May '22</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://www.dropbox.com/s/0bghgwcncvlip85/UCT_Letter_of_Completion_-_Alessio_Are-2.pdf?dl=0" target="_blank" rel="noopener">
+        <div class="cert-row-icon">MR</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Market Research, Consumer Insights &amp; Competitor Analysis</div>
+          <div class="cert-row-issuer">University of Cape Town</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Apr '22</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <a class="cert-row" href="https://www.credly.com/users/alessio-are/badges#credly" target="_blank" rel="noopener">
+        <div class="cert-row-icon">C</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">CAPM® — Certified Associate in Project Management</div>
+          <div class="cert-row-issuer">Project Management Institute</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Mar '22</span>
+          <span class="cert-row-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M8 7h9v9"/></svg></span>
+        </div>
+      </a>
+
+      <div class="cert-row" style="cursor:default">
+        <div class="cert-row-icon">IB</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">International Business Leadership Bootcamp</div>
+          <div class="cert-row-issuer">Rome Business School</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Jul '21</span>
+        </div>
+      </div>
+
+      <div class="cert-row" style="cursor:default">
+        <div class="cert-row-icon">SS</div>
+        <div class="cert-row-body">
+          <div class="cert-row-title">Soft Skills Program</div>
+          <div class="cert-row-issuer">Rome Business School</div>
+        </div>
+        <div class="cert-row-meta">
+          <span>Jul '21</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ============ EDUCATION ============ -->
   <section id="education">
-    <span class="section-label">03 · Education</span>
+    <span class="section-label">05 · Education</span>
     <h2 class="section-title">Where it started</h2>
 
     <div class="edu-grid">
