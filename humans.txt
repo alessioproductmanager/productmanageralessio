@@ -1,19 +1,120 @@
 /* TEAM */
-Name: Alessio Are
-Role: Project & Product Manager
-Location: The Randstad, Netherlands · Remote-friendly
-LinkedIn: https://www.linkedin.com/in/alessioare/
+Name:      Alessio Are
+Role:      Project & Product Manager
+Focus:     API delivery · B2B supplier tooling · Cross-functional delivery
+Currently: Tiqets (2020 → present)
+Location:  The Randstad, Netherlands · Remote-friendly
+Site:      https://alessioproductmanager.com/
+LinkedIn:  https://www.linkedin.com/in/alessioare/
 
-/* CERTIFICATIONS */
-PRINCE2®
-CAPM® — Certified Associate in Project Management
-Six Sigma Yellow Belt
-ISO 56002 — Innovation Management
+
+/* FEATURED CREDENTIAL */
+Design Thinking — Incompany Trainer, Jun 2024
+Human-centered discovery, prototyping, iterative delivery — now
+part of how discovery runs on API integration projects.
+
+
+/* CERTIFICATIONS · project & business management */
+PRINCE2® 2017 Practitioner ................. AXELOS Global Best Practice, Jun 2023
+CAPM® — Certified Associate in PM .......... Project Management Institute, Mar 2022
+Six Sigma Yellow Belt ...................... Aveta Business Institute, May 2022
+ISO 56002 — Innovation Management Systems .. Eicorn, Feb 2023
+International Business Leadership Bootcamp . Rome Business School, Jul 2021
+Soft Skills Program ........................ Rome Business School, Jul 2021
+
+/* CERTIFICATIONS · leadership & people */
+Building & Leading with Emotional Intelligence ..... Beyond EI, Nov 2022
+
+/* CERTIFICATIONS · marketing, data & research */
+The Fundamentals of Digital Marketing .............. Google Digital Garage, Jun 2022
+Growth Marketing ................................... Growth Tribe, May 2022
+Market Research, Consumer Insights & Competitors ... University of Cape Town, Apr 2022
+
+/* CERTIFICATIONS · industry & languages */
+Tourism & Travel Management ........................ The University of Queensland, Jan 2023
+Travel Writing ..................................... Scuola Holden, Sep 2022
+Business English (C1) .............................. University of Amsterdam, Nov 2023
+Nederlands halfgevorderden 1 (B1) .................. The Language Academy, Nov 2022
+
+
+/* SKILLS · project & operations management */
+PMBOK domains · PRINCE2® · Agile / Scrum · Waterfall
+WBS · CPM · EVM · Risk management · Scenario planning
+Stakeholder management · Change management
+Jira · ProjectLibre · KanBoard · Trello
+
+/* SKILLS · business strategy & finance */
+Business strategy · Managerial economics
+Financial statement analysis · Management accounting
+CVP analysis · Budgeting · Investment appraisal · Cost management
+Business planning · KPI ownership
+
+/* SKILLS · marketing & growth */
+Digital marketing · Growth marketing · Traditional marketing
+Market research · Consumer insights · Competitor analysis
+SEO fundamentals · Funnel design · A/B testing mindset
+
+/* SKILLS · people, HR & leadership */
+Emotional intelligence · Incompany training · HR strategy
+Workforce acquisition · Motivation & retention · Ethical leadership
+Cross-functional coordination · Soft skills · Facilitation
+
+/* SKILLS · data & analytics for managers */
+Data analytics for managers · Six Sigma methodology
+Diagnostic problem-solving · Reporting frameworks
+Excel modelling · Process optimization · Metric ownership
+
+/* SKILLS · innovation & design thinking */
+Design Thinking · ISO 56002 · Human-centered design
+Brainstorming · Delphi method · Affinity diagrams
+Rapid prototyping · Requirements gathering · Scope statements
+
+
+/* EDUCATION */
+Double Master's — Project Management
+  Rome Business School · Venice International University (VIU)
+
+Postgraduate — Languages for International Communication
+  Università Mercatorum
+
+Double Bachelor's — Applied Foreign Languages, Business & Tourism
+  Università della Valle d'Aosta · Université Savoie Mont Blanc
+
 
 /* LANGUAGES */
-Italian · English · French · Dutch
+Italian ..... native
+English ..... C1 · Business English (University of Amsterdam)
+French ...... professional working proficiency
+Dutch ....... B1 · Nederlands halfgevorderden (Language Academy)
+
+
+/* CURRENTLY WORKING ON */
+- End-to-end integration workflows for enterprise venues @ Tiqets
+- Platform initiatives: connectivity metrics, API stability, real-time validation
+- Company-wide technical documentation framework
+- Standard Jira workspace configurations for autonomous junior execution
+
 
 /* SITE */
-Last update: 2026/07
-Standards: HTML5, CSS3, semantic markup, schema.org (Person, ProfilePage, WebSite)
-Components: hand-written, no framework, single-file
+Last update:   2026/07/20
+Language:      English (canonical) · IT · NL · EN alternates declared
+Standards:     HTML5, CSS3, semantic markup, progressive enhancement
+Schema.org:    Person, ProfilePage, WebSite, EducationalOccupationalCredential
+Meta:          Open Graph, Twitter Card, Geo tags (NL-NH)
+Fonts:         Inter (sans) · Fraunces (serif) — Google Fonts
+Palette:       Cream (#FAFAF7) · Terracotta accent (#B84A25) · Ink (#141414)
+Components:    hand-written, no framework, single-file
+JS:            ~40 lines vanilla — timeline expand, journey stages
+Accessibility: keyboard-navigable, semantic sections, accessible contrast
+Performance:   no external JS libraries, inline CSS, ~66 KB total
+
+
+/* THANKS */
+- Rome Business School — for the curriculum that made this profile broad
+- Tiqets — for six years of API delivery ground truth
+- Everyone whose PR review, retro comment, or coffee chat sharpened the craft
+
+
+/* CONTACT */
+Best reach: LinkedIn DM — https://www.linkedin.com/in/alessioare/
+Open to:    Project Manager / Product Manager roles · remote or Netherlands-based
